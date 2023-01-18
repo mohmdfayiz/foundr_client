@@ -1,18 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    font-family: 'Poppins', sans-serif;
+:root {
+  font-family: "Poppins", sans-serif;
 }
 
-body{
-    background-color: #E9EEF2;
+body {
+  background-color: #e9eef2;
 }
 
-li{
-    list-style: none;
-    cursor: pointer;
+li {
+  list-style: none;
+  cursor: pointer;
+}
+
+.scrollBar::-webkit-scrollbar {
+    height: 5px;
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+    background-color: #78A6C8;
+    border-radius: 10px;
+}
+
+.profileCard{
+  height: 180px;
+  min-width: 120px;
+}
+
+.eventCard{
+  height: 300px;
+  width: 250px;
+  background-color: white;
+  margin: 10px 10px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  right: 0;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.1);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.articleCard{
+  height: 300px;
+  max-width: 270px;
+}
+
+.coverImage{
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.messageBox{
+  height: 75vh;
 }

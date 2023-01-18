@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Signin = () => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-20">
       <div className="my-[3rem] py-[3rem] bg-white rounded-lg md:w-[500px] w-[440px]">
         <h2 className="text-darkBlue text-center text-3xl font-bold">
           Sign in

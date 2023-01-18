@@ -5,7 +5,7 @@ const Steps = ({props})=>{
     return(
         <div className='flex items-center justify-center'>
             <div className='bg-lightBlue h-12 w-12 m-3 flex items-center justify-center rounded-full'>
-                <p className='text-white'>{props.index}</p>
+                <p className='text-white font-bold'>{props.index}</p>
             </div>
             <div className='w-2/3'>
                 <p  className="text-lightBlue text-xl ml-4">{props.text}</p>

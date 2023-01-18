@@ -5,6 +5,8 @@ import { Home } from "./components/Pages/Home";
 import { Signup } from "./components/Pages/Signup";
 import { Signin } from "./components/Pages/Signin";
 import { Footer } from "./components/Footer/Footer";
+import { Articles } from "./components/Pages/Articles";
+import Messages from "./components/Messages/Messages";
 
 function App() {
   return (
@@ -12,8 +14,10 @@ function App() {
         <Navbar />
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="/signup" exact element={<Signup />} />
-        <Route path="/signin" exact element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/articles" element={<Articles/>} />
+        <Route path="/messages" element={<Messages/>} />
       </Routes>
         <Footer />
     </Router>

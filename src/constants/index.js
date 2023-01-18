@@ -38,3 +38,60 @@ export const steps = [
         text:"If they accept your invite, that's a match! We recommend meeting ASAP and working together on trial project."
     }
 ]
+
+export const users = [
+    {
+        id:1,
+        name:'John Camry',
+        profile:"src\assets\pexels-ralph-rabago-3290885.jpg",
+        location:{
+            country:'UK',
+            city:'London',
+        }
+    },
+    {
+        id:1,
+        name:'Louise philip',
+        profile:"src\assets\pexels-andrew-personal-training-697509.jpg",
+        location:{
+            country:'India',
+            city:'Delhi',
+        }
+    },
+    {
+        id:1,
+        name:'John Mathew',
+        profile:"src\assets\pexels-ralph-rabago-3290885.jpg",
+        location:{
+            country:'UK',
+            city:'London',
+        }
+    },
+    {
+        id:1,
+        name:'Allen Curie',
+        profile:"src\assets\pexels-chloe-1043471.jpg",
+        location:{
+            country:'US',
+            city:'Newyork',
+        }
+    },
+    {
+        id:1,
+        name:'John Camry',
+        profile:"src\assets\pexels-andrew-personal-training-697509.jpg",
+        location:{
+            country:'Us',
+            city:'Newyork',
+        }
+    },
+    {
+        id:1,
+        name:'Jauhar',
+        profile:"src\assets\pexels-ralph-rabago-3290885.jpg",
+        location:{
+            country:'India',
+            city:'Calicut',
+        }
+    },
+]
