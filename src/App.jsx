@@ -7,6 +7,8 @@ import { Signin } from "./components/Pages/Signin";
 import { Footer } from "./components/Footer/Footer";
 import { Articles } from "./components/Pages/Articles";
 import Messages from "./components/Messages/Messages";
+import Events from "./components/Pages/Events";
+import { Account } from "./components/Pages/Account";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/articles" element={<Articles/>} />
         <Route path="/messages" element={<Messages/>} />
+        <Route path="/events" element={<Events/>} />
+        <Route path="/account" element={<Account/>} />
       </Routes>
         <Footer />
     </Router>

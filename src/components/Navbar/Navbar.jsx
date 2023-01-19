@@ -9,10 +9,10 @@ function Account() {
       <img
         width={40}
         className="rounded-full"
-        src="src\assets\pexels-bestbe-models-2080383.jpg"
+        src="\src\assets\man.png"
         alt="profile"
       />
-      <div class="dropdown-content">
+      <div className="dropdown-content">
         <li className="text-[#326789] hover:text-lightBlue my-1">
           <Link to={"/notifications"}>Notifications</Link>
         </li>
@@ -29,7 +29,7 @@ function Account() {
 
 function Navbar() {
   return (
-    <div className="navBar  flex justify-between items-center px-[3rem] py-[1rem] bg-white w-full fixed shadow top-0">
+    <div className="navBar  flex justify-between items-center px-[3rem] py-[1rem] bg-white w-full fixed z-10 shadow top-0">
       <div className="logoDiv">
         <img src={foundrLogo} className="h-12" alt="logo" />
       </div>
@@ -40,7 +40,8 @@ function Navbar() {
         <li className="text-[#326789] hover:text-lightBlue">
           <Link to={"/articles"}>Articles</Link>
         </li>
-        <li className="text-[#326789] hover:text-lightBlue">Mentorship</li>
+        <li className="text-[#326789] hover:text-lightBlue">
+          <Link to={'/events'}>Events</Link></li>
         {login ? (
           <Account />
         ) : (

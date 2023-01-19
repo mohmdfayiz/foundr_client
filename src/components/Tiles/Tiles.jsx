@@ -5,7 +5,7 @@ import {tileData} from '../../constants/index'
 const Tile = ({props}) => {
   return (
     <div className='rounded bg-white justify-between px-3 py-5 m-4 shadow'>
-        <img src={props} alt="icon" />
+        <img src={props.icon} alt="icon" width={35} />
         <h3 className='text-darkBlue font-bold my-2'>{props.title}</h3>
         <p className='text-lightBlue'>{props.text}</p>
     </div>

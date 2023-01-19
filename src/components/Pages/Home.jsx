@@ -4,7 +4,7 @@ import { Events } from '../Mentorship/Events';
 import {Profiles} from '../Profiles/Profiles';
 import { Tiles } from '../Tiles/Tiles';
 import { Working } from '../Working/Working';
-let login = true
+let login = false
 
 export const Home = () => {
   return (
@@ -13,8 +13,6 @@ export const Home = () => {
         <Tiles/>
         {login ? <Profiles/> :<Working/>}
         <Events/>
-
-
     </div>
   )
 }

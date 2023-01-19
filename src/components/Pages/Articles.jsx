@@ -9,7 +9,7 @@ export const Articles = () => {
             <h2 className='ml-px text-[#91AABA] text-3xl font-bold'>Articles</h2>
         </div>
 
-        <div className='flex flex-wrap m-[3rem]'>
+        <div className='flex flex-wrap justify-evenly m-[3rem]'>
             <div className='articleCard p-4 bg-white rounded-lg shadow-lg m-2 relative'>
                 <img src="src\assets\pexels-fauxels-3183197.jpg" alt="cover_img" className='coverImage'/>
                 <h2 className='text-md font-bold text-darkBlue'>Should you start a startup?</h2>
@@ -32,6 +32,7 @@ export const Articles = () => {
                 <p className='text-xs text-lightBlue text-end absolute bottom-4 right-4'>13-01-2023</p>
             </div>
         </div>
+        
     </div>
   )
 }

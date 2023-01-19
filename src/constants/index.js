@@ -2,19 +2,19 @@
 export const tileData = [
     {
         id:1,
-        icon:'/assets/Verified.svg',
+        icon:"/src/assets/Verified.svg",
         title:"Thousands of co-founders await",
         text:"Join the largest co-founder matching platform to find the strongest candidate that’s right for you.", 
     },
     {
         id:2,
-        icon:'/assets/Award.svg',
+        icon:'/src/assets/Award.svg',
         title:"Learn from experts",
         text:"Learn from experts who have succeed in their industries and doing business."
     },
     {
         id:3,
-        icon:'/assets/Browse.svg',
+        icon:'/src/assets/Browse.svg',
         title:"Participate in events",
         text:"Participate in events that are conducting by leading industrial experts though online or offline."
     }
