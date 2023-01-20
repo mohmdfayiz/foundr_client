@@ -25,7 +25,9 @@ li {
     background-color: #78A6C8;
     border-radius: 10px;
 }
-
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 .profileCard{
   height: 180px;
   min-width: 120px;

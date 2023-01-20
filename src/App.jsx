@@ -22,6 +22,8 @@ function App() {
         <Route path="/messages" element={<Messages/>} />
         <Route path="/events" element={<Events/>} />
         <Route path="/account" element={<Account/>} />
+        {/* <Route path="*" element={<Pagenotfound/>} /> */}
+
       </Routes>
         <Footer />
     </Router>

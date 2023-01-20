@@ -1,6 +1,6 @@
 import React from 'react'
 import { Intro } from '../Intro/Intro';
-import { Events } from '../Mentorship/Events';
+import { EventSection } from '../Mentorship/EventSection';
 import {Profiles} from '../Profiles/Profiles';
 import { Tiles } from '../Tiles/Tiles';
 import { Working } from '../Working/Working';
@@ -12,7 +12,7 @@ export const Home = () => {
         <Intro/>
         <Tiles/>
         {login ? <Profiles/> :<Working/>}
-        <Events/>
+        <EventSection/>
     </div>
   )
 }

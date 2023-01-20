@@ -1,10 +1,10 @@
 import React from 'react'
-import { Events as EventComponent } from '../Mentorship/Events'
+import {EventSection } from '../Mentorship/EventSection'
 function Events() {
   return (
     <div>
         <div className='h-14 bg-white'></div>
-        <EventComponent/>
+        <EventSection/>
     </div>
   )
 }
