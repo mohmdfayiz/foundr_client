@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import foundrLogo from "../../assets/logo.svg";
 let login = true;
 
-function Account() {
+export const Account = () =>{
   return (
-    <li className="dropdown">
+    <>
+    <div className="dropdown">
       <img
         width={40}
         className="rounded-full"
@@ -13,17 +14,19 @@ function Account() {
         alt="profile"
       />
       <div className="dropdown-content">
-        <li className="text-[#326789] hover:text-lightBlue my-1">
-          <Link to={"/notifications"}>Notifications</Link>
-        </li>
-        <li className="text-[#326789] hover:text-lightBlue my-1">
+        <li key={"message"} className="text-[#326789] hover:text-lightBlue my-1.5">
           <Link to={"/messages"}>Messages</Link>
         </li>
-        <li className="text-[#326789] hover:text-lightBlue my-1">
+        <li key={"account"} className="text-[#326789] hover:text-lightBlue my-1.5">
           <Link to={"/account"}>Account</Link>
         </li>
+        <hr />
+        <li key={"logout"} className="text-[#326789] hover:text-lightBlue my-1">
+          <Link to={"/"}>Logout</Link>
+        </li>
       </div>
-    </li>
+    </div>
+    </>
   );
 }
 

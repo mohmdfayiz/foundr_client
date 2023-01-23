@@ -6,7 +6,6 @@ import Preferences from '../Account/Preferences'
 export const Account = () => {
   return (
     <div className="m-[3rem]">
-      <div className="h-20"></div>
       <div className="p-[1.5rem] grid grid-cols-12 ">
         <ProfileCard/>
         <UserDetails/>

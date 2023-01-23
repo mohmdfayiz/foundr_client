@@ -3,7 +3,6 @@ import React from 'react'
 export const Articles = () => {
   return (
     <div>
-        <div className='h-20'></div>
         <div className='flex items-center m-[3rem]'>
             <img src="src\assets\Document.svg" width={32} alt="article_icon" />
             <h2 className='ml-px text-[#91AABA] text-3xl font-bold'>Articles</h2>

@@ -27,7 +27,7 @@ export const steps = [
     },
     {
         id:2,
-        text:"Once approved, we'll show you profiles that fit your preferences."
+        text:"Once created, we'll show you profiles that fit your preferences."
     },
     {
         id:3,

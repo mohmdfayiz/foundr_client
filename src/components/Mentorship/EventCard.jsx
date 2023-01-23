@@ -1,4 +1,8 @@
+import { useDispatch } from "react-redux"
+import { modalVisiblity  } from "../../features/modalDisplay/modalSlice"
+
 const EventCard = () =>{
+  const dispatch = useDispatch()
     return(
         <div className="eventCard p-3 rounded shadow">
           <img
@@ -14,12 +18,11 @@ const EventCard = () =>{
             </p>
           </div>
           <div className="flex items-center justify-center">
-            <button className="bg-darkBlue py-2 px-3 rounded-3xl text-white font-medium mt-2 hover:shadow-lg,border border-black">
+            <button onClick={()=>dispatch(modalVisiblity())} className="bg-darkBlue py-2 px-3 rounded-3xl text-white font-medium mt-2 hover:shadow-lg,border border-black">
               Join Now
             </button>
           </div>
         </div>
     )
 }
-
 export default EventCard

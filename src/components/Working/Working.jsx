@@ -16,7 +16,7 @@ const Steps = ({props})=>{
 
 export const Working = () => {
   return (
-    <div className='my-[3rem] flex flex-col'>
+    <div className='my-[5rem] flex flex-col'>
         <h2 className='font-extrabold text-2xl text-darkBlue pb-4 text-center'>How does it work?</h2>
         <Steps props={{index:steps[0].id,text:steps[0].text}}/>
         <Steps props={{index:steps[1].id,text:steps[1].text}}/>

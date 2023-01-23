@@ -1,9 +1,9 @@
 import React from 'react'
 export const Profiles = () => {
   return (
-    <div className='bg-white w-full overflow-x-auto overflow-y-hidden my-[3rem] pl-12 py-4 scrollBar'>
+    <div className='bg-white w-full  my-[4rem] pl-12 py-4 '>
         <h2 className='font-bold text-lg  text-darkBlue '>Matching Profiles</h2>
-        <div className='flex'>
+        <div className='flex overflow-x-auto overflow-y-hidden scrollBar py-3'>
             <div className='bg-[#e9eef2] mr-5 mt-3 flex flex-col items-center shadow profileCard p-4 hover:shadow-lg cursor-pointer'>
                 <img src="src\assets\pexels-andrew-personal-training-697509.jpg" alt="profile" />
                 <p>username</p>

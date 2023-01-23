@@ -1,17 +1,18 @@
 import React from 'react'
+import { useState } from 'react';
 import { Intro } from '../Intro/Intro';
 import { EventSection } from '../Mentorship/EventSection';
 import {Profiles} from '../Profiles/Profiles';
 import { Tiles } from '../Tiles/Tiles';
 import { Working } from '../Working/Working';
-let login = false
 
 export const Home = () => {
+  const [login,setLogin] = useState(true)
   return (
     <div>
-        <Intro/>
+        <Intro login={login}/>
         <Tiles/>
-        {login ? <Profiles/> :<Working/>}
+        {login ? <Profiles/> : <Working/>}
         <EventSection/>
     </div>
   )
