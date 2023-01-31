@@ -1,7 +1,5 @@
 import React from 'react'
-import ProfileCard from '../Account/ProfileCard'
-import UserDetails from '../Account/UserDetails'
-import Preferences from '../Account/Preferences'
+import { ProfileCard, UserDetails, Preferences } from '../components'
 
 export const Account = () => {
   return (

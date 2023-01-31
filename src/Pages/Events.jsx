@@ -1,5 +1,5 @@
 import React from 'react'
-import {EventSection } from '../Mentorship/EventSection'
+import {EventSection } from '../components'
 function Events() {
   return (
     <div>

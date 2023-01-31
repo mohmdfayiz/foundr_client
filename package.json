@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://localhost:8000/",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
@@ -13,8 +14,11 @@
     "@heroicons/react": "^2.0.13",
     "@reduxjs/toolkit": "^1.9.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
+    "axios": "^1.2.5",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2"
   },

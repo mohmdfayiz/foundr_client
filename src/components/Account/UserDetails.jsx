@@ -13,7 +13,6 @@ const PersonalInfo = () => {
             <textarea
               className="border w-full p-3"
               name=""
-              id=""
               cols="30"
               rows="3"
               placeholder="type here..."

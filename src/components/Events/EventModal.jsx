@@ -1,7 +1,6 @@
-import { Fragment, useState } from 'react'
-import { Dialog, RadioGroup, Transition } from '@headlessui/react'
+import { Fragment} from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { StarIcon } from '@heroicons/react/20/solid'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalVisiblity } from '../../features/modalDisplay/modalSlice'
 
@@ -26,7 +25,6 @@ export default function EventModal() {
     
     const dispatch = useDispatch() 
     const {visible} = useSelector((state)=>state.modal)
-
   return (
     <Transition.Root show={visible} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={()=>dispatch(modalVisiblity())}>

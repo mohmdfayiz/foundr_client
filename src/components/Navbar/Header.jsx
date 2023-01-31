@@ -1,22 +1,17 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import {
-  ArrowPathIcon,
   Bars3Icon,
   BookmarkSquareIcon,
   CalendarIcon,
-  ChartBarIcon,
-  CursorArrowRaysIcon,
   LifebuoyIcon,
-  PhoneIcon,
-  PlayIcon,
   ShieldCheckIcon,
-  Squares2X2Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { Account } from "./Navbar";
+import { Account } from "./Account";
+import { useSelector, useDispatch } from "react-redux";
 
 const solutions = [
   {
@@ -80,13 +75,16 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+
+  const dispatch = useDispatch();
+  const {authenticated} = useSelector(state => state.auth);
+
   return (
     <Popover className="relative bg-white">
       <div className="mx-3 max-w-7xl px-6">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/">
-              <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto sm:h-12"
                 src="\src\assets\logo.svg"
@@ -125,6 +123,7 @@ export default function Header() {
                 Events
               </Link>
 
+            {authenticated &&
               <Popover className="relative">
                 {({ open }) => (
                   <>
@@ -182,8 +181,8 @@ export default function Header() {
                     </Transition>
                   </>
                 )}
-              </Popover>
-              <Account />
+              </Popover> }
+             {authenticated && <Account />}
             </Popover.Group>
           </div>
         </div>
@@ -222,6 +221,7 @@ export default function Header() {
               <div className="mt-6">
                 <nav className="grid gap-y-8">
                   {solutions.map((item) => (
+                    
                     <Link
                       key={item.name}
                       to={item.href}
