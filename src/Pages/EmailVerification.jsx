@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const EmailVerification = () => {
   
@@ -50,7 +50,7 @@ export const EmailVerification = () => {
 
   return (
     <div className="flex justify-center">
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      {/* <Toaster position="top-center" reverseOrder={false}></Toaster> */}
       <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-2xl font-bold">
          Email Verification

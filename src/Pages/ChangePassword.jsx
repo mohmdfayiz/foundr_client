@@ -1,9 +1,9 @@
-import { Toaster } from "react-hot-toast"
+// import { Toaster } from "react-hot-toast"
 
 const ChangePassword = () => {
   return (
     <div className="flex justify-center">
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      {/* <Toaster position="top-center" reverseOrder={false}></Toaster> */}
       <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-2xl font-bold">
           Change Password

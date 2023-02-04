@@ -4,7 +4,13 @@ import { useDispatch } from "react-redux";
 import { unAuthenticate } from "../../features/authentication/authSlice";
 
 export const Account = () =>{
+
   const dispatch = useDispatch();
+  function userLogout(){
+    localStorage.removeItem('token');
+    dispatch(unAuthenticate())
+  }
+
   return (
     <>
     <div className="dropdown">
@@ -22,7 +28,7 @@ export const Account = () =>{
           <Link to={"/account"}>Account</Link>
         </li>
         <hr />
-        <button onClick={()=>{dispatch(unAuthenticate())}} className="text-[#326789] hover:text-lightBlue my-1">
+        <button onClick={userLogout} className="text-[#326789] hover:text-lightBlue my-1">
           Logout
         </button>
       </div>

@@ -11,11 +11,14 @@ export const ForgotPassword = () => {
     if(!email) return toast.error("Email required");
     axios({
       method: "POST",
-      url: `http://localhost:8000/api/user/recoverAccount`,
+      url: `http://localhost:8000/api/user/verifyUser`,
       data: {email},
     })
       .then((res) => {
-        toast.success("OTP resent successfully.");
+        toast.success("OTP sent successfully.");
+        axios.post('http://localhost:8000/api/user/sendMail',({email})).then(()=>{
+          navigate('/emailVarification',{ state: { data: {email:email} } })
+        })
       })
       .catch((err) => {
         console.log(err);

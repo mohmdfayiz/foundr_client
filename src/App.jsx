@@ -15,6 +15,8 @@ import { ForgotPassword } from "./Pages/ForgotPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import { EmailVerification } from "./Pages/EmailVerification";
 
+import { AuthorizeUser } from "./middlewares/auth";
+
 function App() {
   return (
     <Router>
@@ -22,15 +24,15 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Home />}/>
         <Route path="/signup" element={<Signup />}/>
-        <Route path="/emailVerification" element={<Otp/>}/>
+        <Route path="/emailVarification" element={<Otp/>}/>
         <Route path="/signin" element={<Signin />}/>
         <Route path="/forgotPassword" element={<ForgotPassword/>} />
         <Route path="/verifyEmail" element={<EmailVerification/>} />
         <Route path="/changePassword" element={<ChangePassword/>} />
         <Route path="/articles" element={<Articles/>}/>
-        <Route path="/messages" element={<Messages/>}/>
+        <Route path="/messages" element={<AuthorizeUser><Messages/></AuthorizeUser>}/>
         <Route path="/events" element={<Events/>}/>
-        <Route path="/account" element={<Account/>}/>
+        <Route path="/account" element={<AuthorizeUser><Account/></AuthorizeUser>}/>
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
         <Footer />

@@ -15,9 +15,9 @@ export const Otp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
+  toast.success("An OTP has been sent to your email.")
   useEffect(()=>{
     setEmail(data.email)
-    setTimeout(()=>toast.success("An OTP has been sent to your email."),100)
   },[])
 
   useEffect(()=>{
