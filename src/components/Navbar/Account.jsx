@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unAuthenticate } from "../../features/authentication/authSlice";
 
 export const Account = () =>{
 
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   function userLogout(){
     localStorage.removeItem('token');
     dispatch(unAuthenticate())
+    navigate('/', {replace:true})
   }
 
   return (

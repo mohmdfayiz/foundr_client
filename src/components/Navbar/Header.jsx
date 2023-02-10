@@ -11,7 +11,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { Account } from "./Account";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const solutions = [
   {
@@ -76,7 +76,6 @@ function classNames(...classes) {
 
 export default function Header() {
 
-  const dispatch = useDispatch();
   const {authenticated} = useSelector(state => state.auth);
 
   return (
@@ -182,7 +181,7 @@ export default function Header() {
                   </>
                 )}
               </Popover> }
-             {authenticated && <Account />}
+             {authenticated && <Account/>}
             </Popover.Group>
           </div>
         </div>

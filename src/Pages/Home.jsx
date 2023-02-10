@@ -1,6 +1,7 @@
 import React from 'react';
-import { Intro, EventSection, Profiles, Tiles, Working } from '../components';
 import { useSelector } from 'react-redux';
+import { Intro, EventSection, Profiles, Tiles, Working } from '../components';
+
 
 
 export const Home = () => {

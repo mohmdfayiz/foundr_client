@@ -5,7 +5,7 @@ import { authenticate } from "../features/authentication/authSlice";
 import { useFormik } from "formik";
 import { toast, Toaster } from "react-hot-toast";
 import { loginformValidate } from "../middlewares/validate";
-axios.defaults.baseURL =  import.meta.env.VITE_SERVER_DOMAIN
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
 export const Signin = () => {
   const navigate = useNavigate();
@@ -14,35 +14,33 @@ export const Signin = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password:"",
+      password: "",
     },
     validate: loginformValidate,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      let checking = toast.loading('Checking...')
-      axios({
-        method: "POST",
-        url: "/api/user/signin",
-        data: values,
-      })
-      .then((res)=>{
-        toast.dismiss(checking);
-        toast.success('Signin Successfully✨');
-        let {token} = res.data
-        localStorage.setItem('token', token)
-        dispatch(authenticate());
-        navigate("/", { replace: "true" });
-      })
-      .catch((error)=>{
-        toast.dismiss();
-        if (error.response?.status === 404) toast.error("Invalid email");
-        else if (error.response?.status === 401) toast.error("Invalid password");
-        else toast.error("Something went wrong, Try agian.");
-      })
+      let checking = toast.loading("Checking...");
+      axios
+        .post("/api/user/signin", { ...values })
+        .then((res) => {
+          toast.dismiss(checking);
+          let { token, userId } = res.data;
+          localStorage.setItem('userId', userId)
+          localStorage.setItem("token", JSON.stringify(token));
+          dispatch(authenticate());
+          navigate("/", { replace: "true" });
+        })
+        .catch((error) => {
+          toast.dismiss();
+          if (error.response?.status === 404) toast.error("Invalid email");
+          else if (error.response?.status === 401)
+            toast.error("Invalid password");
+          else toast.error("Something went wrong, Try agian.");
+        });
     },
   });
- 
+
   return (
     <div className="flex justify-center">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -84,7 +82,9 @@ export const Signin = () => {
           <p className="text-xs mb-1 text-lightBlue">
             Don't have an account? <Link to={"/signup"}>Sign up.</Link>
           </p>
-          <Link to={'/forgotPassword'} className="text-xs text-lightBlue">Forgot Password?</Link>
+          <Link to={"/forgotPassword"} className="text-xs text-lightBlue">
+            Forgot Password?
+          </Link>
         </div>
       </div>
     </div>

@@ -1,49 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Preferences = () => {
+  const [showAbout, setShowAbout] = useState(true);
+  const [showCofounder, setShowCofounder] = useState(false);
+
   return (
-    <div className="col-span-12 my-4 p-5 shadow-md rounded-lg bg-white">
-      <h2 className="text-lg font-bold text-darkBlue">Skills</h2>
-      <div className="m-3">
-        <h4 className="font-medium">Are you Technical?</h4>
-        <p className="text-xs text-gray-400">
-          You are a programmer, scientist or engineer who can build the product
-          without outside assistance.
-        </p>
-        <input type="radio" name="" id="" /> <label htmlFor="">Yes</label>
-        <input className="ml-2" type="radio" name="" id="" />{" "}
-        <label htmlFor="">No</label>
-
-        <h4 className="font-medium mt-2">Impressive accomplishment</h4>
-        <textarea name="accomplishments" id="" cols="" rows="3" className="border w-full p-2"></textarea>
-
-        <h4 className="font-medium mt-2">Education: schools, degrees (including field of study), and years of graduation. Use a separate line for each school.</h4>
-        <textarea name="accomplishments" id="" cols="" rows="3" className="border w-full p-2"></textarea>
-
-        <h4  className="font-medium mt-2">Employment: employers, position / titles, and dates. Use a separate line for each job, most recent first.*</h4>
-        <textarea name="accomplishments" id="" cols="" rows="3" className="border w-full p-2"></textarea>
-
+    <div className="col-span-12 p-5 shadow-md rounded-lg bg-white">
+      <div className="bg-white py-4 my-2 flex justify-center">
+        <button
+          onClick={() => {
+            setShowAbout(true),setShowCofounder(false);
+          }}
+          className={ showAbout ? "py-2 px-5 m-2 text-white bg-darkBlue border shadow-sm rounded-md hover:shadow-md ":
+            "py-2 px-5 m-2 text-darkBlue border shadow-sm rounded-md hover:shadow-md "
+          }
+        >
+          About You
+        </button>
+        <button
+          onClick={() => {
+            setShowAbout(false),setShowCofounder(true);
+          }}
+          className={ showCofounder ? "py-2 px-5 m-2 text-white bg-darkBlue border shadow-sm rounded-md hover:shadow-md ":
+          "py-2 px-5 m-2 text-darkBlue border shadow-sm rounded-md hover:shadow-md "}
+        >
+          Cofounder Preferences
+        </button>
       </div>
-      <hr />
-      <h2 className="text-lg font-bold text-darkBlue my-3">
-        Co-founder Preferences
-      </h2>
-      <div className="m-3">
-        <h4 className="font-medium mt-2">
-          Are you Actively seeking a co-founder ?
-        </h4>
-        <p className="text-xs text-gray-400">
-          Startup School can help you find others interested in finding a
-          co-founder.
-        </p>
-        <input type="radio" name="" id="" /> <label htmlFor="">Yes</label>
-        <input className="ml-2" type="radio" name="" id="" />{" "}
-        <label htmlFor="">No</label>
 
-        <h4>Are you looking for a co-founder who already has a specific idea, or are you open to exploring new ideas together?</h4>
-        <input type="radio" name="" id="" />
-        <label htmlFor="">I want to see co-founders who have a specific idea</label>
+      <div className={showAbout ? "block" : "hidden"}>
+        <form className="m-3">
+          <h4 className="font-medium">Are you Technical?</h4>
+          <p className="text-xs text-gray-400">
+            You are a programmer, scientist or engineer who can build the
+            product without outside assistance.
+          </p>
+          <input type="radio" name="" id="" /> <label htmlFor="">Yes</label>
+          <input className="ml-2" type="radio" name="" id="" />{" "}
+          <label htmlFor="">No</label>
+          <h4 className="font-medium mt-2">Impressive accomplishment</h4>
+          <textarea
+            name="accomplishments"
+            id=""
+            cols=""
+            rows="3"
+            className="border w-full p-2"
+          ></textarea>
+          <h4 className="font-medium mt-2">
+            Education: schools, degrees (including field of study), and years of
+            graduation. Use a separate line for each school.
+          </h4>
+          <textarea
+            name="accomplishments"
+            id=""
+            cols=""
+            rows="3"
+            className="border w-full p-2"
+          ></textarea>
+          <h4 className="font-medium mt-2">
+            Employment: employers, position / titles, and dates. Use a separate
+            line for each job, most recent first.*
+          </h4>
+          <textarea
+            name="accomplishments"
+            id=""
+            cols=""
+            rows="3"
+            className="border w-full p-2"
+          ></textarea>
+        </form>
+      </div>
 
+      <div className={showCofounder ? "block" : "hidden"}>
+        <form className="m-3">
+          <h4 className="font-medium mt-2">
+            Are you Actively seeking a co-founder ?
+          </h4>
+          <p className="text-xs text-gray-400">
+            Startup School can help you find others interested in finding a
+            co-founder.
+          </p>
+          <input type="radio" name="" id="" /> <label htmlFor="">Yes</label>
+          <input className="ml-2" type="radio" name="" id="" />{" "}
+          <label htmlFor="">No</label>
+          <h4>
+            Are you looking for a co-founder who already has a specific idea, or
+            are you open to exploring new ideas together?
+          </h4>
+          <input type="radio" name="" id="" />
+          <label htmlFor="">
+            I want to see co-founders who have a specific idea
+          </label>
+        </form>
       </div>
     </div>
   );
