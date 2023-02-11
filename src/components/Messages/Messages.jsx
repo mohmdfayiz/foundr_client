@@ -104,16 +104,19 @@ const Messages = () => {
             </div>
             <div className="flex flex-col items-center border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
               <div className="h-20 w-20 rounded-full border overflow-hidden">
-                <img
+                {/* <img
                   src="\src\assets\pexels-bestbe-models-2080383.jpg"
                   alt="Avatar"
                   className="h-full w-full"
-                />
+                /> */}
+                <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
+                      {currentChat.userName && currentChat.userName[0]}
+                    </div>
               </div>
               <div className="text-sm font-semibold mt-2">
                 {currentChat.userName ? currentChat.userName : ""}
               </div>
-              <div className="text-xs text-gray-500">Lead UI/UX Designer</div>
+              <div className="text-xs text-gray-500">{currentChat.location && currentChat.location.country }</div>
             </div>
 
             <div className="flex flex-col mt-8 ">
@@ -131,10 +134,10 @@ const Messages = () => {
                     className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
                   >
                     <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                      {user.userName[0]}
+                      {user?.userName[0]} {console.log(user)}
                     </div>
                     <div className="ml-2 text-sm font-semibold">
-                      {user.userName}
+                      {user?.userName}
                     </div>
                   </button>
                 ))}

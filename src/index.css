@@ -30,7 +30,7 @@ li {
 }
 .profileCard{
   height: 180px;
-  min-width: 120px;
+  width: 120px;
 }
 
 .eventCard{

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { Country, State, City } from "country-state-city";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const PersonalInfo = (props) => {
@@ -11,15 +11,18 @@ const PersonalInfo = (props) => {
   const [ state, setState ] = useState("");
   const [ city, setCity ] = useState("");
   const [age, setAge] = useState("");
+  const [changed, setChanged] = useState(false)
 
   useEffect(()=>{
-    setAbout(props?.about)
-    setGender(props?.gender)
-    setAge(props?.age)
-    setCountry(props?.location?.country)
-    setState(props?.location?.state)
-    setCity(props?.location?.city)
-  },[])
+    if(props){
+      setAbout(props.about)
+      setGender(props.gender)
+      setAge(props.age)
+      setCountry(props.location?.country)
+      setState(props.location?.state)
+      setCity(props.location?.city)
+    }
+  },[props])
 
   const updateUserDetails = async() => {
     try {
@@ -32,7 +35,8 @@ const PersonalInfo = (props) => {
         city:city
       }
       const token = localStorage.getItem('token')
-      await axios.post('/api/user/updateUserDetails', data, {headers:{Authorization: `Bearer ${token}`}})
+      const {status} = await axios.post('/api/user/updateUserDetails', data, {headers:{Authorization: `Bearer ${token}`}})
+      if(status === 201){toast.success("User details updated successfully")}
     } catch (error) {
       toast.error('Sorry, something went wrong!')
     }
@@ -40,6 +44,7 @@ const PersonalInfo = (props) => {
 
   return (
     <div className="md:col-span-7 p-5 col-span-12 shadow-md rounded-lg bg-white">
+    <Toaster position="top-center" reverseOrder={false}></Toaster>
       <h3 className="font-bold text-lg text-darkBlue">User Details</h3>
       <form >
         <textarea
@@ -48,7 +53,10 @@ const PersonalInfo = (props) => {
           cols="30"
           value={about}
           placeholder="About your self..."
-          onChange={(e)=> setAbout( e.target.value )}
+          onChange={(e)=> {
+            setAbout( e.target.value )
+            setChanged(true)
+          }}
         />
         <div className="grid gap-2 grid-cols-6">
 
@@ -56,7 +64,10 @@ const PersonalInfo = (props) => {
               id="gender" 
               className="border p-1 h-10 col-span-3"
               value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => {
+                setGender(e.target.value)
+                setChanged(true)
+              }}
             >
               <option value="" className="text-gray-400">Gender</option>
               <option value="Male">Male</option>
@@ -70,7 +81,10 @@ const PersonalInfo = (props) => {
               placeholder="Age"
               id="age" 
               value={age} 
-              onChange={(e) =>{ setAge(e.target.value)}} 
+              onChange={(e) =>{ 
+                setAge(e.target.value) 
+                setChanged(true)
+              }} 
             />
           
           <input
@@ -79,7 +93,10 @@ const PersonalInfo = (props) => {
             type="text"
             name="country"
             value={country}
-            onChange={(e)=>{ setCountry(e.target.value)}}
+            onChange={(e)=>{ 
+              setCountry(e.target.value)
+              setChanged(true)
+            }}
           />
           <input
             className="border col-span-2 p-2 "
@@ -87,7 +104,10 @@ const PersonalInfo = (props) => {
             type="text"
             name="state"
             value={state}
-            onChange={(e)=>{setState(e.target.value)}}
+            onChange={(e)=>{
+              setState(e.target.value)
+              setChanged(true)
+            }}
           />
           <input
             className="border col-span-2 p-2"
@@ -95,11 +115,15 @@ const PersonalInfo = (props) => {
             type="text"
             name="city"
             value={city}
-            onChange={(e)=>{setCity(e.target.value)}}
+            onChange={(e)=>{
+              setCity(e.target.value)
+              setChanged(true)
+            }}
           />
           
         </div>
       </form>
+      {changed && 
       <div className="flex justify-end mt-2">
         <button onClick={updateUserDetails} className="mx-2 border py-1 px-2  border-darkBlue text-darkBlue font-bold">
           Save
@@ -107,7 +131,7 @@ const PersonalInfo = (props) => {
         <button className="mx-2 border border-gray-500 py-1 px-2 text-gray-500 font-bold">
           Cancel
         </button>
-      </div>
+      </div>}
     </div>
   );
 };

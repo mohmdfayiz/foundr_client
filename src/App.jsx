@@ -16,8 +16,8 @@ import ChangePassword from "./Pages/ChangePassword";
 import { EmailVerification } from "./Pages/EmailVerification";
 import { AuthorizeUser } from "./middlewares/auth";
 import { useDispatch } from "react-redux";
-import {authenticate,unAuthenticate,} from "./features/authentication/authSlice";
 import jwt_decode from "jwt-decode";
+import {authenticate,unAuthenticate,} from "./features/authentication/authSlice";
 
 function App() {
 

@@ -10,6 +10,7 @@ export const Account = () => {
       const token = localStorage.getItem('token');
       const {data} = await axios.get('/api/user/getUser', {headers:{Authorization: `Bearer ${token}`}})
       setUserDetails(data)
+      console.log(data);
     }
     getUserDetails();
   },[])
@@ -17,7 +18,7 @@ export const Account = () => {
   return (
     <div className="m-[3rem]">
       <div className="p-[1.5rem] grid grid-cols-12 gap-4 ">
-        <ProfileCard userName={userDetails.userName} email={userDetails.email}/>
+        <ProfileCard userName={userDetails.userName} email={userDetails.email} connections={userDetails.connections}/>
         <UserDetails 
           about={userDetails?.about} 
           gender={userDetails?.gender} 
