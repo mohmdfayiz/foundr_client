@@ -1,137 +1,128 @@
 import React, { useEffect, useState } from "react";
-// import { Country, State, City } from "country-state-city";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useFormik } from "formik";
+import { userProfileValidation } from "../../middlewares/validate";
 
 const PersonalInfo = (props) => {
- 
-  const [ about, setAbout ] = useState("");
-  const [ gender, setGender ] = useState("");
-  const [ country, setCountry ] = useState("");
-  const [ state, setState ] = useState("");
-  const [ city, setCity ] = useState("");
-  const [age, setAge] = useState("");
-  const [changed, setChanged] = useState(false)
+  // const [changed, setChanged] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const [tempUserDetails, setTempUserDetails] = useState({});
 
-  useEffect(()=>{
-    if(props){
-      setAbout(props.about)
-      setGender(props.gender)
-      setAge(props.age)
-      setCountry(props.location?.country)
-      setState(props.location?.state)
-      setCity(props.location?.city)
+  useEffect(() => {
+    if (props) {
+      setUserDetails(props);
+      setTempUserDetails(props);
+      console.log(tempUserDetails);
     }
-  },[props])
+  }, [props]);
 
-  const updateUserDetails = async() => {
+  const resetData = () => {
+    setTempUserDetails(userDetails);
+  };
+
+  const updateUserProfile = async (profileDetails) => {
     try {
-      const data = {
-        about:about,
-        gender:gender, 
-        age:age, 
-        country:country, 
-        state:state,
-        city:city
+      const token = localStorage.getItem("token");
+      const { status } = await axios.post(
+        "/api/user/updateUserProfile",
+        profileDetails,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (status === 201) {
+        toast.success("User profile updated successfully");
       }
-      const token = localStorage.getItem('token')
-      const {status} = await axios.post('/api/user/updateUserDetails', data, {headers:{Authorization: `Bearer ${token}`}})
-      if(status === 201){toast.success("User details updated successfully")}
     } catch (error) {
-      toast.error('Sorry, something went wrong!')
+      console.log(error);
+      toast.error("Sorry, something went wrong!");
     }
-  }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      intro: tempUserDetails?.intro || "",
+      gender: tempUserDetails?.gender || "",
+      age: tempUserDetails?.age || "",
+      country: tempUserDetails.location?.country || "",
+      state: tempUserDetails.location?.state || "",
+      city: tempUserDetails.location?.city || "",
+    },
+    validate: userProfileValidation,
+    validateOnBlur: false,
+    validateOnChange: false,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      updateUserProfile(values);
+    },
+  });
 
   return (
     <div className="md:col-span-7 p-5 col-span-12 shadow-md rounded-lg bg-white">
-    <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <h3 className="font-bold text-lg text-darkBlue">User Details</h3>
-      <form >
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
+      <h3 className="font-bold text-lg text-darkBlue">User Profile</h3>
+      <form onSubmit={formik.handleSubmit}>
         <textarea
-          className="border w-full p-3 mt-2"
-          id="about"
+          className="border rounded-md w-full p-3 mt-2"
+          id="intro"
           cols="30"
-          value={about}
           placeholder="About your self..."
-          onChange={(e)=> {
-            setAbout( e.target.value )
-            setChanged(true)
-          }}
+          {...formik.getFieldProps("intro")}
         />
         <div className="grid gap-2 grid-cols-6">
+          <select
+            id="gender"
+            className="border rounded-md p-1 h-10 col-span-3"
+            {...formik.getFieldProps("gender")}
+          >
+            <option value="" className="text-gray-400 ">
+              Gender
+            </option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="other">other</option>
+          </select>
 
-            <select 
-              id="gender" 
-              className="border p-1 h-10 col-span-3"
-              value={gender}
-              onChange={(e) => {
-                setGender(e.target.value)
-                setChanged(true)
-              }}
-            >
-              <option value="" className="text-gray-400">Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="other">other</option>
-            </select>
-         
-            <input
-              className="border h-10 pl-2 col-span-3" 
-              type="number" 
-              placeholder="Age"
-              id="age" 
-              value={age} 
-              onChange={(e) =>{ 
-                setAge(e.target.value) 
-                setChanged(true)
-              }} 
-            />
-          
           <input
-            className="border col-span-2 p-2 "
+            className="border rounded-md h-10 pl-2 col-span-3"
+            type="number"
+            id="age"
+            placeholder="Age"
+            {...formik.getFieldProps("age")}
+          />
+
+          <input
+            className="border rounded-md col-span-2 p-2 "
             placeholder="Country"
             type="text"
             name="country"
-            value={country}
-            onChange={(e)=>{ 
-              setCountry(e.target.value)
-              setChanged(true)
-            }}
+            {...formik.getFieldProps("country")}
           />
           <input
-            className="border col-span-2 p-2 "
+            className="border rounded-md col-span-2 p-2 "
             placeholder="State"
             type="text"
             name="state"
-            value={state}
-            onChange={(e)=>{
-              setState(e.target.value)
-              setChanged(true)
-            }}
+            {...formik.getFieldProps("state")}
           />
           <input
-            className="border col-span-2 p-2"
+            className="border rounded-md col-span-2 p-2"
             placeholder="City"
             type="text"
             name="city"
-            value={city}
-            onChange={(e)=>{
-              setCity(e.target.value)
-              setChanged(true)
-            }}
+            {...formik.getFieldProps("city")}
           />
-          
+        </div>
+        <div className="flex justify-end mt-2">
+          <button
+            type="submit"
+            className="border py-1 px-3 rounded-md  border-darkBlue text-darkBlue font-bold"
+          >
+            Save
+          </button>
         </div>
       </form>
-      {changed && 
-      <div className="flex justify-end mt-2">
-        <button onClick={updateUserDetails} className="mx-2 border py-1 px-2  border-darkBlue text-darkBlue font-bold">
-          Save
-        </button>
-        <button className="mx-2 border border-gray-500 py-1 px-2 text-gray-500 font-bold">
-          Cancel
-        </button>
-      </div>}
     </div>
   );
 };

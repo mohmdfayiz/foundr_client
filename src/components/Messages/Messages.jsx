@@ -13,7 +13,6 @@ const Messages = () => {
   const scrolRef = useRef();
   const socket = useRef();
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const getConnections = async () => {
@@ -37,8 +36,6 @@ const Messages = () => {
     };
     fetchMessages(currentChat._id);
   }, [currentChat._id]);
-
-  
 
   useEffect(()=>{
     scrolRef.current.scrollIntoView({behavior:"smooth"})
@@ -104,11 +101,6 @@ const Messages = () => {
             </div>
             <div className="flex flex-col items-center border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
               <div className="h-20 w-20 rounded-full border overflow-hidden">
-                {/* <img
-                  src="\src\assets\pexels-bestbe-models-2080383.jpg"
-                  alt="Avatar"
-                  className="h-full w-full"
-                /> */}
                 <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
                       {currentChat.userName && currentChat.userName[0]}
                     </div>

@@ -95,3 +95,79 @@ export const users = [
         }
     },
 ]
+
+export const Interests = [
+    {
+        id:1,
+        interest: 'Agriculture / Agtech'
+    },
+    {
+        id:2,
+        interest: 'Artificial Intelligence'
+    },
+    {
+        id:3,
+        interest: 'Augmented Reality / Virtual Reality'
+    },
+    {
+        id:4,
+        interest: 'B2B / Enterprise'
+    },
+    {
+        id:5,
+        interest: 'Biomedical / Biotech'
+    },
+    {
+        id:6,
+        interest: 'Education / Edtech'
+    },
+    {
+        id:7,
+        interest: 'Entertainment'
+    },
+    {
+        id:8,
+        interest: 'Government'
+    },
+    {
+        id:9,
+        interest: 'Health / Wellness'
+    },
+    {
+        id:10,
+        interest: 'Travel / Tourism'
+    }   
+]
+
+export const Responsibilities = [
+    {
+        id:1,
+        name:'Product'
+    },
+    {
+        id:2,
+        name:'Engineering'
+    },
+    {
+        id:3,
+        name:'Design'
+    },
+    {
+        id:4,
+        name:'Sales and Marketing'
+    },
+    {
+        id:5,
+        name:'Operations'
+    },
+]
+
+export const QuestionsAboutCofounder = [
+    {
+        quetion: "Are you Actively seeking a co-founder ?",
+        subText: "We can help you find others interested in finding a co-founder.",
+        options: [
+            {id:1}
+        ]
+    }
+]

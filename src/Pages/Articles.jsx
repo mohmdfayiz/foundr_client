@@ -4,6 +4,7 @@ import axios from 'axios'
 export const Articles = () => {
 
     const [articles, setArticles] = useState([]);
+
     useEffect(()=>{
         const getArticles = async () =>{
             const {status, data} = await axios.get('/api/user/getArticles')
