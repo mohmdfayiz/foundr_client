@@ -1,20 +1,20 @@
 import { useDispatch } from "react-redux"
 import { modalVisiblity  } from "../../features/modalDisplay/modalSlice"
 
-const EventCard = () =>{
+const EventCard = (props) =>{
   const dispatch = useDispatch()
     return(
-        <div className="eventCard p-3 rounded shadow">
+        <div className="eventCard p-3 rounded-md shadow-md ">
           <img
             className="coverImage"
-            src="src\assets\pexels-igreja-dimensão-10401268.jpg"
+            src={props.mentorImage}
             alt="coverImg"
           />
-          <h2 className="font-bold text-darkBlue text-center my-1">Mentor</h2>
+          <h2 className="font-bold text-darkBlue text-center my-1">{props.mentorName}</h2>
           <div className="flex justify-center items-center">
             <img src="\src\assets\schedule.png" alt="Calender" width={20} />
             <p className="text-xs text-gray-400 text-center ml-1">
-              21 January, 10:00 AM
+              {props.dateAndTime}
             </p>
           </div>
           <div className="flex items-center justify-center">

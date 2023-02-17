@@ -4,7 +4,6 @@ import Header from "./components/Navbar/Header";
 import { Home } from "./Pages/Home";
 import { Signup } from "./Pages/Signup";
 import { Signin } from "./Pages/Signin";
-import { Footer } from "./components/Footer/Footer";
 import { Articles } from "./Pages/Articles";
 import Messages from "./components/Messages/Messages";
 import Events from "./Pages/Events";

@@ -20,11 +20,12 @@ const event = {
     feedback:[]
 } 
 
-
 export default function EventModal() {
     
     const dispatch = useDispatch() 
     const {visible} = useSelector((state)=>state.modal)
+    console.log(visible);
+
   return (
     <Transition.Root show={visible} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={()=>dispatch(modalVisiblity())}>

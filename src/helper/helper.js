@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN
 
 /** To get user info from Token */
