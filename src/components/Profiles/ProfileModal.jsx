@@ -7,27 +7,29 @@ import avatar from "../../assets/man.png";
 import linkedIn from "../../assets/linkedin.png";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import socket from "../../helper/socket";
+import jwtDecode from "jwt-decode";
 
 export const ProfileModal = () => {
   const cancelButtonRef = useRef(null);
   const dispatch = useDispatch();
-  const { show } = useSelector((state) => state.profileModal);
-  const { profile } = useSelector((state) => state.profileModal);
-  console.log(profile);
+  const { show, profile } = useSelector((state) => state.profileModal);
   async function onClick() {
     dispatch(showModal());
   }
 
   const handleConnection = async (user) => {
     const token = localStorage.getItem("token");
+    const {userId} = jwtDecode(token)
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const { status } = await axios.post(
-      `/api/user/connectionRequest?to=${user}`,
+      `/api/user/connectionRequest?to=${user._id}`,
       {},
       config
     );
     if (status === 201) {
       toast.success("Request sent successfully");
+      socket.emit('notification',{sender:userId, receiver:user._id, type:'request', message:`${profile.userName} have sent you a connection request.`, isRead:false })
     }
   };
 
@@ -101,7 +103,7 @@ export const ProfileModal = () => {
                     <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                       <div className="flex items-center space-x-4 mt-2">
                         <button
-                          onClick={() => handleConnection(profile._id)}
+                          onClick={() => handleConnection(profile)}
                           className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
                         >
                           <svg
@@ -165,7 +167,7 @@ export const ProfileModal = () => {
                         Interests
                       </p>
                       <span className="py-1 border text-center col-span-6 border-gray-600 text-sm rounded-md">
-                        {profile?.interests?.map((interest)=> interest + ", ") }
+                        {profile?.interests?.map((interest) => interest + ", ")}
                       </span>
                     </div>
                     <div className="grid grid-cols-8">
@@ -173,10 +175,11 @@ export const ProfileModal = () => {
                         Responsibilities
                       </p>
                       <span className="py-1 border text-center col-span-6 border-gray-600 text-sm rounded-md">
-                        {profile?.responsibilities?.map((interest)=> interest + ", ") }
+                        {profile?.responsibilities?.map(
+                          (interest) => interest + ", "
+                        )}
                       </span>
                     </div>
-                    
                   </div>
                 </div>
               </Dialog.Panel>

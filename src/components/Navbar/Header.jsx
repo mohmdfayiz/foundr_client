@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Popover, Transition, } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -11,7 +11,9 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { Account } from "./Account";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { setNotification } from "../../features/notification/notificationSlice";
+import socket from "../../helper/socket";
 
 const solutions = [
   {
@@ -77,6 +79,14 @@ function classNames(...classes) {
 export default function Header() {
 
   const {authenticated} = useSelector(state => state.auth);
+  const disapatch = useDispatch();
+  useEffect(()=>{
+    if(authenticated){
+      socket.on('notification-receive',(data)=>{
+        disapatch(setNotification(data))
+      })
+    }
+  },[])
 
   return (
     <Popover className="relative bg-white">

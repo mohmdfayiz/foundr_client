@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { modalVisiblity  } from "../../features/modalDisplay/modalSlice"
+import { modalVisiblity  } from "../../features/modalDisplay/eventSlice"
 
 const EventCard = (props) =>{
   const dispatch = useDispatch()

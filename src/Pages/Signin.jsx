@@ -26,7 +26,6 @@ export const Signin = () => {
         .then((res) => {
           toast.dismiss(checking);
           let { token, userId } = res.data;
-          localStorage.setItem('userId', userId)
           localStorage.setItem("token", JSON.stringify(token));
           dispatch(authenticate());
           navigate("/", { replace: "true" });

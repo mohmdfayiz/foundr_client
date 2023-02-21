@@ -164,10 +164,39 @@ export const Responsibilities = [
 
 export const QuestionsAboutCofounder = [
     {
-        quetion: "Are you Actively seeking a co-founder ?",
+        id:1,
+        question: "Are you Actively seeking a co-founder ?",
         subText: "We can help you find others interested in finding a co-founder.",
-        options: [
-            {id:1}
+        choices: [
+            {name:'activelySeeking', text:'Yes', value:true},
+            {name:'activelySeeking', text:'No', value:false}
+        ]
+    },
+    {
+        id:2,
+        question:'Do you prefer either technical or non-technical profiles?',
+        choices:[
+            {name:'cofounderTechnical', text:'Technical', value:1},
+            {name:'cofounderTechnical', text:'Non-technical', value:2},
+            {name:'cofounderTechnical', text:'No preference', value:3},
+        ]
+    },
+    {
+        id:3,
+        question:"Are you looking for a co-founder who already has a specific idea, or are you open to exploring new ideas together?",
+        choices:[
+            {name:'cofounderHasIdea', text:'I want to see co-founders who have a specific idea', value:1},
+            {name:'cofounderHasIdea', text:'I want to see co-founders who are not set on a specific idea', value:2},
+            {name:'cofounderHasIdea', text:'No preference', value:3}
+        ]
+    },
+    {
+        id:4,
+        question:"Do you have a location preference?",
+        choices:[
+            {name:'locationPreferece', text:'Within a certain distance of me', value:1},
+            {name:'locationPreferece', text:'In my country', value:2},
+            {name:'locationPreferece', text:'No preference', value:3}
         ]
     }
 ]

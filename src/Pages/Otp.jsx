@@ -32,7 +32,6 @@ export const Otp = () => {
       if (status === 201) {
         await axios.post(`/api/user/signup`, {...userData }).then((response) => {
           localStorage.setItem('token',JSON.stringify(response.data.token));
-          localStorage.setItem('userId', response.data.userId)
           dispatch(authenticate())
           navigate("/");
         });

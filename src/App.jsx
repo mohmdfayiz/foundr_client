@@ -5,6 +5,7 @@ import { Home } from "./Pages/Home";
 import { Signup } from "./Pages/Signup";
 import { Signin } from "./Pages/Signin";
 import { Articles } from "./Pages/Articles";
+import Article from "./Pages/Article";
 import Messages from "./components/Messages/Messages";
 import Events from "./Pages/Events";
 import { Account } from "./Pages/Account";
@@ -25,7 +26,7 @@ function App() {
     let token = localStorage.getItem("token");
     if (token) {
       try {
-        var decoded = jwt_decode(token);
+        let decoded = jwt_decode(token);
         if (decoded.exp * 1000 > Date.now()) {
           dispatch(authenticate());
         } else {
@@ -53,6 +54,7 @@ function App() {
         <Route path="/verifyEmail" element={<EmailVerification />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/articles" element={<Articles />} />
+        <Route path="/article/:id" element={<Article/>} />
         <Route path="/events" element={<Events />} />
         <Route
           path="/messages"

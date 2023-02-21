@@ -10,7 +10,7 @@ export const Home = () => {
       <Intro />
       <Tiles />
       {authenticated ? <Profiles /> : <Working />}
-      {/* <EventSection /> */}
+      <EventSection />
       <Footer />
     </div>
   );

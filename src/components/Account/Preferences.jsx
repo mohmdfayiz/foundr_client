@@ -1,8 +1,15 @@
 import { Label, Radio } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Select, Chip, MenuItem, Box, OutlinedInput } from "@mui/material";
-import { Interests, Responsibilities } from "../../constants";
-import { cofounderPreferenceValidation, userAboutValidation } from "../../middlewares/validate";
+import {
+  Interests,
+  Responsibilities,
+  // QuestionsAboutCofounder,
+} from "../../constants";
+import {
+  cofounderPreferenceValidation,
+  userAboutValidation,
+} from "../../middlewares/validate";
 import axios from "axios";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
@@ -21,7 +28,9 @@ const Preferences = (props) => {
   const [cofounderTechnical, setCofounderTechnical] = useState(null);
   const [cofounderHasIdea, setCofounderHasIdea] = useState(null);
   const [locationPreference, setLocationPreference] = useState(null);
-  const [cofounderResponsibilities, setCofounderResponsibilities] = useState([]);
+  const [cofounderResponsibilities, setCofounderResponsibilities] = useState(
+    []
+  );
 
   const [aboutUser, setAboutUser] = useState({}); // api data
   useEffect(() => {
@@ -37,7 +46,9 @@ const Preferences = (props) => {
     setCofounderTechnical(aboutUser?.cofounderTechnical || cofounderTechnical);
     setCofounderHasIdea(aboutUser?.cofounderHasIdea || cofounderHasIdea);
     setLocationPreference(aboutUser?.locationPreference || locationPreference);
-    setCofounderResponsibilities(aboutUser?.cofounderResponsibilities || cofounderResponsibilities)
+    setCofounderResponsibilities(
+      aboutUser?.cofounderResponsibilities || cofounderResponsibilities
+    );
   }, [props]);
 
   const handleSelect = (event, setState) => {
@@ -66,14 +77,18 @@ const Preferences = (props) => {
   const updateCofounderPreference = async (data) => {
     try {
       const token = localStorage.getItem("token");
-      const {status} = await axios.post("/api/user/updateCofounderPreference", data, {
-        headers: {Authorization:`Bearer ${token}` },
-      });
-      if(status === 201) toast.success("Updated successfully")
+      const { status } = await axios.post(
+        "/api/user/updateCofounderPreference",
+        data,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (status === 201) toast.success("Updated successfully");
     } catch (error) {
-      toast.error("Something went wrong!")
+      toast.error("Something went wrong!");
     }
-  }
+  };
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -106,21 +121,21 @@ const Preferences = (props) => {
   });
 
   const cofounderPreference = useFormik({
-    initialValues:{
+    initialValues: {
       activelySeeking,
       cofounderTechnical,
       cofounderHasIdea,
       locationPreference,
-      cofounderResponsibilities
+      cofounderResponsibilities,
     },
     validate: cofounderPreferenceValidation,
-    validateOnChange:false,
-    validateOnBlur:false,
-    enableReinitialize:true,
+    validateOnChange: false,
+    validateOnBlur: false,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      updateCofounderPreference(values)
-    }
-  })
+      updateCofounderPreference(values);
+    },
+  });
 
   return (
     <div className="col-span-12 p-5 shadow-md rounded-lg bg-white">
@@ -345,9 +360,32 @@ const Preferences = (props) => {
 
       {/* Cofounder Preference Section */}
       <div className={showCofounder ? "block" : "hidden"}>
-        <form 
+        <form
           onSubmit={cofounderPreference.handleSubmit}
-          className="m-3 flex flex-col gap-3">
+          className="m-3 flex flex-col gap-3"
+        >
+          {/* {QuestionsAboutCofounder.map((Q) => (
+            <div>
+              <h4 className="font-bold">{Q.question}</h4>
+              {Q.subText && (
+                <p className="text-xs text-gray-400">
+                  We can help you find others interested in finding a
+                  co-founder.
+                </p>
+              )}
+              {Q.choices.map((C) => (
+                <div className="flex items-center gap-2">
+                  <Radio
+                    id={C.name+C.value}
+                    name={C.name}
+                    value={C.value}
+                    onChange={(e)=> handlePreference( e.target.value, C.name) }
+                  />
+                  <Label htmlFor={C.name+C.value}>{C.text}</Label>
+                </div>
+              ))}
+            </div>
+          ))} */}
           <div>
             <h4 className="font-bold">
               Are you Actively seeking a co-founder ?
