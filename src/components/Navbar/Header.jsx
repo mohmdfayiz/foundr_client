@@ -1,92 +1,59 @@
-import { Fragment, useEffect, useState } from "react";
-import { Popover, Transition, } from "@headlessui/react";
-import {
-  Bars3Icon,
-  BookmarkSquareIcon,
-  CalendarIcon,
-  LifebuoyIcon,
-  ShieldCheckIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Fragment, useEffect } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { Account } from "./Account";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "../../features/notification/notificationSlice";
-import socket from "../../helper/socket";
-
-const solutions = [
-  {
-    name: "Home",
-    href : '/'
-  },
-  {
-    name: "Articles",
-    href : '/articles'
-  },
-  {
-    name: "Events",
-    href : '/events'
-  },
-  {
-    name: "Notifications"
-  },
-  {
-    name: "Message",
-    href : '/message' 
-  },
-  {
-    name: "Account",
-    href: '/account'
-  },
-];
-
-
-const resources = [
-  {
-    name: "Help Center",
-    description:
-      "Get all of your questions answered in our forums or contact support.",
-    href: "#",
-    icon: LifebuoyIcon,
-  },
-  {
-    name: "Guides",
-    description:
-      "Learn how to maximize our platform to get the most out of it.",
-    href: "#",
-    icon: BookmarkSquareIcon,
-  },
-  {
-    name: "Events",
-    description:
-      "See what meet-ups and other events we might be planning near you.",
-    href: "#",
-    icon: CalendarIcon,
-  },
-  {
-    name: "Security",
-    description: "Understand how we take your privacy seriously.",
-    href: "#",
-    icon: ShieldCheckIcon,
-  },
-];
+import {
+  showModal,
+  setProfile,
+} from "../../features/modalDisplay/matchingProfileSlice";
+import axios from "axios";
+import { Account } from "./Account";
+import avatar from "../../assets/man.png";
+import { navigation } from "../../constants";
+import { setConnectionRequests } from "../../features/loggedUser/loggedUserSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+  const { authenticated } = useSelector((state) => state.auth);
+  const { notifications } = useSelector((state) => state.notification);
 
-  const {authenticated} = useSelector(state => state.auth);
-  const disapatch = useDispatch();
-  useEffect(()=>{
-    if(authenticated){
-      socket.on('notification-receive',(data)=>{
-        disapatch(setNotification(data))
-      })
+  const dispatch = useDispatch();
+  const fetchNotifications = async (token) => {
+    const { data } = await axios.get("/api/user/getNotifications", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data.notifications);
+  };
+
+  const fetchRequests = async (token) => {
+    const { data } = await axios.get("/api/user/getRequests", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data.connectionRequests);
+  };
+
+  useEffect(() => {
+    if (authenticated) {
+      const token = localStorage.getItem("token");
+      fetchNotifications(token).then((data) => {
+        dispatch(setNotification(data));
+      });
+      fetchRequests(token).then((data) => {
+        dispatch(setConnectionRequests(data));
+      });
     }
-  },[])
+  }, [authenticated]);
+
+  const handleViewProfile = (profile) => {
+    dispatch(setProfile(profile));
+    dispatch(showModal());
+  };
 
   return (
     <Popover className="relative bg-white">
@@ -132,66 +99,77 @@ export default function Header() {
                 Events
               </Link>
 
-            {authenticated &&
-              <Popover className="relative">
-                {({ open }) => (
-                  <>
-                    <Popover.Button
-                      className={classNames(
-                        open ? "text-lightBlue" : "text-darkBlue",
-                        "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-lightBlue focus:outline-none"
-                      )}
-                    >
-                      <span>Notifications</span>
-                      <ChevronDownIcon
+              {authenticated && (
+                <Popover className="relative">
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
                         className={classNames(
                           open ? "text-lightBlue" : "text-darkBlue",
-                          "ml-2 h-5 w-5 group-hover:text-gray-500"
+                          "group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-lightBlue focus:outline-none"
                         )}
-                        aria-hidden="true"
-                      />
-                    </Popover.Button>
+                      >
+                        <span>Notifications</span>
+                        <ChevronDownIcon
+                          className={classNames(
+                            open ? "text-lightBlue" : "text-darkBlue",
+                            "ml-2 h-5 w-5 group-hover:text-gray-500"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </Popover.Button>
 
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
-                        <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                          <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                            {resources.map((item) => (
-                              <Link
-                                key={item.name}
-                                to={item.href}
-                                className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50"
-                              >
-                                <item.icon
-                                  className="h-6 w-6 flex-shrink-0 text-lightBlue"
-                                  aria-hidden="true"
-                                />
-                                <div className="ml-4">
-                                  <p className="text-base font-medium text-gray-900">
-                                    {item.name}
-                                  </p>
-                                  <p className="mt-1 text-sm text-gray-500">
-                                    {item.description}
-                                  </p>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
+                          <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div className="relative grid gap-3 bg-white px-3 py-4">
+                              {notifications.map((item, index) => (
+                                <div
+                                  key={index}
+                                  className="flex p-2 rounded-lg hover:bg-gray-50"
+                                >
+                                  <img
+                                    src={item.sender?.profilePhoto || avatar}
+                                    alt="profilePhoto"
+                                    className="h-14 w-14 object-cover rounded-full"
+                                  />
+                                  <div className="ml-4">
+                                    <p className="text-gray-900">
+                                      {item?.sender?.userName}
+                                    </p>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                      {item?.message}
+                                    </p>
+                                  </div>
+                                  <div className="flex justify-end items-center ml-6">
+                                    <button
+                                      onClick={() =>
+                                        handleViewProfile(item.sender)
+                                      }
+                                      className="text-darkBlue font-semibold text-sm"
+                                    >
+                                      View Profile
+                                    </button>
+                                  </div>
                                 </div>
-                              </Link>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
-              </Popover> }
-             {authenticated && <Account/>}
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+              )}
+              {authenticated && <Account />}
             </Popover.Group>
           </div>
         </div>
@@ -229,8 +207,7 @@ export default function Header() {
               </div>
               <div className="mt-6">
                 <nav className="grid gap-y-8">
-                  {solutions.map((item) => (
-                    
+                  {navigation.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}

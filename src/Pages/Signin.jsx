@@ -25,7 +25,7 @@ export const Signin = () => {
         .post("/api/user/signin", { ...values })
         .then((res) => {
           toast.dismiss(checking);
-          let { token, userId } = res.data;
+          let { token } = res.data;
           localStorage.setItem("token", JSON.stringify(token));
           dispatch(authenticate());
           navigate("/", { replace: "true" });

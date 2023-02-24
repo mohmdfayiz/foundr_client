@@ -162,6 +162,29 @@ export const Responsibilities = [
     },
 ]
 
+export const navigation = [
+    {
+      name: "Home",
+      href: "/",
+    },
+    {
+      name: "Articles",
+      href: "/articles",
+    },
+    {
+      name: "Events",
+      href: "/events",
+    },
+    {
+      name: "Message",
+      href: "/messages",
+    },
+    {
+      name: "Account",
+      href: "/account",
+    },
+  ];
+
 export const QuestionsAboutCofounder = [
     {
         id:1,

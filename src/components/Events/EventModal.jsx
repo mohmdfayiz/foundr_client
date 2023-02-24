@@ -1,4 +1,4 @@
-import { Fragment} from 'react'
+import { Fragment, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,7 +12,7 @@ export default function EventModal() {
 
     async function handleJoin(){
       const token = localStorage.getItem('token')
-      const {status} = await axios.post(`/api/user/joinEvent?${event._id}`,{},{headers:{Authorization: `Bearer ${token}`}})
+      const {status} = await axios.post(`/api/user/joinEvent`,{eventId:event._id},{headers:{Authorization: `Bearer ${token}`}})
 
       if(status === 201){
         const data = {
@@ -98,11 +98,11 @@ export default function EventModal() {
 
                       <section aria-labelledby="options-heading" className="mt-5">
                         <h3 id="options-heading" className="my-2 text-darkBlue font-bold">
-                          Join Now !!
+                          Join Now !
                         </h3>
 
-                        <input className='border border-darkBlue text-gray-600 w-2/3 rounded focus:outline-none p-2' type="text" name="email" placeholder='Enter you email' id="" />
-                        <button onClick={handleJoin} className='border border-darkBlue ml-2 font-bold text-darkBlue py-2 px-3 rounded'>Get the link.</button>
+                        {/* <input onChange={(e)=> setEmail(e.target.value)} className='border border-darkBlue text-gray-600 w-2/3 rounded focus:outline-none p-2' type="text" name="email" placeholder='Enter you email' /> */}
+                        <button onClick={handleJoin} className='border border-darkBlue hover:shadow-md font-bold text-darkBlue py-2 px-3 rounded'>Get the invitation link to your registered email.</button>
                         
                       </section>
                     </div>

@@ -86,6 +86,7 @@ export const ProfileSetup = () => {
         </div>
       </form>
     </div>
+    
     <div className="col-span-12 p-5 shadow-md rounded-lg bg-white">
       <div className="bg-white py-4 my-2 flex justify-center">
         <button

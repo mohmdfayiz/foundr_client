@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,31 +7,70 @@ import avatar from "../../assets/man.png";
 import linkedIn from "../../assets/linkedin.png";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import socket from "../../helper/socket";
 import jwtDecode from "jwt-decode";
+import { setConnectionRequests } from "../../features/loggedUser/loggedUserSlice";
 
 export const ProfileModal = () => {
   const cancelButtonRef = useRef(null);
   const dispatch = useDispatch();
   const { show, profile } = useSelector((state) => state.profileModal);
+  const { connectionRequests } = useSelector((state) => state.loggedUser);
+
   async function onClick() {
     dispatch(showModal());
   }
 
+  const token = localStorage.getItem("token");
+  const { userId } = jwtDecode(token);
+
+  const isUserInConnectionRequests = connectionRequests.some(
+    (request) => profile._id === request.sender
+  );
+
+  const isPending = connectionRequests.some(
+    (request) => userId === request.sender && request.status === "pending"
+  );
+
   const handleConnection = async (user) => {
-    const token = localStorage.getItem("token");
-    const {userId} = jwtDecode(token)
     const config = { headers: { Authorization: `Bearer ${token}` } };
+    const data = {
+      receiver: user._id,
+      type: "request",
+      message: "sent you a connection request",
+    };
     const { status } = await axios.post(
-      `/api/user/connectionRequest?to=${user._id}`,
-      {},
+      `/api/user/connectionRequest`,
+      data,
       config
     );
     if (status === 201) {
       toast.success("Request sent successfully");
-      socket.emit('notification',{sender:userId, receiver:user._id, type:'request', message:`${profile.userName} have sent you a connection request.`, isRead:false })
     }
   };
+
+  const handleResponse = async (reqFrom, response) => {
+    const data = {
+      reqFrom,
+      response,
+      type:"response",
+      message: response ? "Request accepted,Send a message now!" : "Request rejected, They missed the opportunity!"
+    }
+    const {status} = await axios.post('/api/user/updateConnectionResponse',data,{headers:{Authorization: `Bearer ${token}`}})
+    if(status === 201) toast.success(`Connection made successfully`)
+  };
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   const fetchRequests = async (token) => {
+  //     const { data } = await axios.get("/api/user/getRequests", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     return Promise.resolve(data.connectionRequests);
+  //   };
+  //   fetchRequests(token).then((data) => {
+  //     dispatch(setConnectionRequests(data));
+  //   });
+  // }, [profile]);
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -102,20 +141,51 @@ export const ProfileModal = () => {
                     </div>
                     <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                       <div className="flex items-center space-x-4 mt-2">
-                        <button
-                          onClick={() => handleConnection(profile)}
-                          className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
+                        {isUserInConnectionRequests ? (
+                          <button
+                            onClick={() => handleResponse(profile._id,true)}
+                            className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
                           >
-                            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                          </svg>
-                          <span>Connect</span>
-                        </button>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                            </svg>
+                            <span>Accept</span>
+                          </button>
+                        ) : isPending ? (
+                          <button
+                            className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                            </svg>
+                            <span>Requested</span>
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleConnection(profile)}
+                            className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                            </svg>
+                            <span>Connect</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

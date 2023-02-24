@@ -3,7 +3,6 @@ import axios from "axios";
 import { modalVisiblity, setEvent } from "../../features/modalDisplay/eventSlice";
 import { useDispatch } from "react-redux";
 import EventModal from "./EventModal";
-// import EventCard from "./EventCard";
 
 export const EventSection = () => {
   const [events, setEvents] = useState([]);

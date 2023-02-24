@@ -1,20 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import socket from "../../helper/socket";
+import {io} from "socket.io-client";
+import jwt_decode from 'jwt-decode'
 
 const Messages = () => {
   const [connections, setConnections] = useState([]);
   const [currentChat, setCurrentCaht] = useState({});
   const [message, setMessage] = useState([]);
-  const [inputMessage, setInputMessage] = useState("");
+  const [inputMessage, setInputMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const token = localStorage.getItem("token");
-  const { userId } = jwt_decode(token);
+
+  const token = localStorage.getItem('token')
+  const {userId} = jwt_decode(token)
 
   const scrolRef = useRef();
+  const socket = useRef();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const getConnections = async () => {
       const { data } = await axios.get("/api/user/getConnections", {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,75 +25,69 @@ const Messages = () => {
       setConnections(data.connections);
     };
     getConnections();
-  }, []);
+  },[]);
 
   useEffect(() => {
     const fetchMessages = async (user) => {
-      if (user) {
-        const { data } = await axios.get(`/api/user/getMessages?to=${user}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setMessage(data);
-      }
+      if(user) {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(`/api/user/getMessages?to=${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMessage(data);
+    }
     };
     fetchMessages(currentChat._id);
   }, [currentChat._id]);
 
-  useEffect(() => {
-    scrolRef.current.scrollIntoView({ behavior: "smooth" });
-  });
+  useEffect(()=>{
+    scrolRef.current.scrollIntoView({behavior:"smooth"})
+  })
 
   const handleSelect = (user) => {
     setCurrentCaht(user);
   };
 
-  useEffect(() => {
-    if (currentChat !== "") {
-      // socket.current = io(import.meta.env.VITE_SERVER_DOMAIN);
-      socket.emit("addUser", userId);
+  useEffect(()=>{
+    if(currentChat !== ""){
+      socket.current = io(import.meta.env.VITE_SERVER_DOMAIN)
+      socket.current.emit("addUser", userId);
     }
-
-    // return () => {
-    //   if (socket) {
-    //     socket.off('disconnect')
-    //   }
-    // };
-  }, [userId]);
+  },[userId]);
 
   const sendmsg = async () => {
     const messages = {
-      myself: true,
-      message: inputMessage,
-    };
-
-    socket.emit("send-msg", {
-      to: currentChat._id,
-      message: inputMessage,
-    });
-
-    let token = localStorage.getItem("token");
-    let data = {
-      to: currentChat._id,
-      message: inputMessage,
-    };
-
-    await axios.post("/api/user/sendMessage", data, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setMessage(message.concat(messages));
-  };
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("msg-receive", (msg) => {
-        setArrivalMessage({ myself: false, message: msg });
-      });
+      myself:true,
+      message:inputMessage
     }
-  }, [arrivalMessage]);
 
-  useEffect(() => {
-    arrivalMessage && setMessage((pre) => [...pre, arrivalMessage]);
-  }, [arrivalMessage]);
+    socket.current.emit("send-msg",{
+      to:currentChat._id,
+      message:inputMessage
+    });
+
+    let token = localStorage.getItem('token')
+    let data = {
+      to:currentChat._id,
+      message:inputMessage
+    }
+
+    await axios.post('/api/user/sendMessage', data, {headers:{Authorization: `Bearer ${token}`}})
+    setMessage(message.concat(messages))
+  }
+
+  useEffect(()=>{
+    if(socket.current){
+      socket.current.on("msg-receive", (msg)=>{
+        setArrivalMessage({myself:false, message: msg})
+      })
+    }
+  },[arrivalMessage])
+
+
+  useEffect(()=>{
+    arrivalMessage && setMessage((pre)=> [...pre, arrivalMessage] )
+  },[arrivalMessage])
 
   return (
     <div className="m-[3rem]">
