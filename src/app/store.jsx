@@ -5,6 +5,7 @@ import modalReducer from "../features/modalDisplay/eventSlice"
 import connectionsReducer from '../features/modalDisplay/connectionSlice'
 import profileReducer from '../features/modalDisplay/matchingProfileSlice'
 import notificationSlice from "../features/notification/notificationSlice";
+import currentChatSlice from "../features/currentChat/currentChatSlice";
 
 export default configureStore({
     reducer:{
@@ -14,5 +15,6 @@ export default configureStore({
         connectionsModal: connectionsReducer,
         profileModal: profileReducer,
         notification: notificationSlice,
+        currentChat: currentChatSlice,
     }
 })

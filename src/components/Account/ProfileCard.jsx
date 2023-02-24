@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Connections from "./Connections";
 import { useDispatch } from "react-redux";
-import { showModal, setConnection } from "../../features/modalDisplay/connectionSlice";
+import { showConnections, setConnection } from "../../features/modalDisplay/connectionSlice";
 import { toast } from "react-hot-toast";
+import { ProfileModal } from "../Profiles/ProfileModal";
 
 const ProfileCard = (props) => {
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -17,11 +18,11 @@ const ProfileCard = (props) => {
   const token = localStorage.getItem('token');
 
   const dispatch = useDispatch();
-  async function showConnections(){
+  async function showConnectionsModal(){
     const token = localStorage.getItem('token')
     const {data:{connections}} =  await axios.get('/api/user/getConnections',{headers:{Authorization: `Bearer ${token}`}})
     if(connections.length){
-      dispatch(showModal())
+      dispatch(showConnections())
       dispatch(setConnection(connections))
     }else{
       toast.error("Could not find Connections!")
@@ -55,7 +56,7 @@ const ProfileCard = (props) => {
       <h2 className="text-xl font-bold text-darkBlue mt-2">{userName}</h2>
       <p className="text-gray-500 m-2">{email}</p>
       <div className="flex">
-        <button onClick={showConnections} className="border bg-darkBlue text-white font-semibold px-4 py-3 m-2 rounded-md">
+        <button onClick={showConnectionsModal} className="border bg-darkBlue text-white font-semibold px-4 py-3 m-2 rounded-md">
           {connections?.length} Connection
         </button>
         <Link

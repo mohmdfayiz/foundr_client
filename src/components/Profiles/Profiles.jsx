@@ -31,7 +31,6 @@ export const Profiles = () => {
   return (
     <div className="bg-white w-full my-[4rem] pl-12 py-4 ">
       <Toaster position="top-center" reverseOrder={false} />
-      <ProfileModal/>
       <h2 className="font-bold text-lg  text-darkBlue ">Matching Profiles</h2>
       <div className="flex overflow-x-auto overflow-y-hidden scrollBar py-3">
         {profiles.map((profile) => (

@@ -1,20 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import {io} from "socket.io-client";
-import jwt_decode from 'jwt-decode'
+import { io } from "socket.io-client";
+import { useSelector, useDispatch } from "react-redux";
+import { setChatUser } from "../../features/currentChat/currentChatSlice";
+import jwtDecode from "jwt-decode";
 
 const Messages = () => {
   const [connections, setConnections] = useState([]);
-  const [currentChat, setCurrentCaht] = useState({});
   const [message, setMessage] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
   const token = localStorage.getItem('token')
-  const {userId} = jwt_decode(token)
-
+  const {userId} = jwtDecode(token)
+  const { chatUser } = useSelector((state) => state.currentChat);
   const scrolRef = useRef();
   const socket = useRef();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,69 +27,70 @@ const Messages = () => {
       setConnections(data.connections);
     };
     getConnections();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const fetchMessages = async (user) => {
-      if(user) {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get(`/api/user/getMessages?to=${user}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMessage(data);
-    }
+      if (user) {
+        const token = localStorage.getItem("token");
+        const { data } = await axios.get(`/api/user/getMessages?to=${user}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setMessage(data);
+      }
     };
-    fetchMessages(currentChat._id);
-  }, [currentChat._id]);
+    fetchMessages(chatUser._id);
+  }, [chatUser._id]);
 
-  useEffect(()=>{
-    scrolRef.current.scrollIntoView({behavior:"smooth"})
-  })
+  useEffect(() => {
+    scrolRef.current.scrollIntoView({ behavior: "smooth" });
+  });
 
   const handleSelect = (user) => {
-    setCurrentCaht(user);
+    dispatch(setChatUser(user))
   };
 
-  useEffect(()=>{
-    if(currentChat !== ""){
-      socket.current = io(import.meta.env.VITE_SERVER_DOMAIN)
+  useEffect(() => {
+    if (chatUser !== "") {
+      socket.current = io(import.meta.env.VITE_SERVER_DOMAIN);
       socket.current.emit("addUser", userId);
     }
-  },[userId]);
+  }, [userId]);
 
   const sendmsg = async () => {
     const messages = {
-      myself:true,
-      message:inputMessage
-    }
+      myself: true,
+      message: inputMessage,
+    };
 
-    socket.current.emit("send-msg",{
-      to:currentChat._id,
-      message:inputMessage
+    socket.current.emit("send-msg", {
+      to: chatUser._id,
+      message: inputMessage,
     });
 
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem("token");
     let data = {
-      to:currentChat._id,
-      message:inputMessage
+      to: chatUser._id,
+      message: inputMessage,
+    };
+
+    await axios.post("/api/user/sendMessage", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setMessage(message.concat(messages));
+  };
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-receive", (msg) => {
+        setArrivalMessage({ myself: false, message: msg });
+      });
     }
+  }, [arrivalMessage]);
 
-    await axios.post('/api/user/sendMessage', data, {headers:{Authorization: `Bearer ${token}`}})
-    setMessage(message.concat(messages))
-  }
-
-  useEffect(()=>{
-    if(socket.current){
-      socket.current.on("msg-receive", (msg)=>{
-        setArrivalMessage({myself:false, message: msg})
-      })
-    }
-  },[arrivalMessage])
-
-
-  useEffect(()=>{
-    arrivalMessage && setMessage((pre)=> [...pre, arrivalMessage] )
-  },[arrivalMessage])
+  useEffect(() => {
+    arrivalMessage && setMessage((pre) => [...pre, arrivalMessage]);
+  }, [arrivalMessage]);
 
   return (
     <div className="m-[3rem]">
@@ -105,14 +108,14 @@ const Messages = () => {
             <div className="flex flex-col items-center border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
               <div className="h-20 w-20 rounded-full border overflow-hidden">
                 <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
-                  {currentChat.userName && currentChat.userName[0]}
+                  {chatUser.userName && chatUser.userName[0]}
                 </div>
               </div>
               <div className="text-sm font-semibold mt-2">
-                {currentChat.userName ? currentChat.userName : ""}
+                {chatUser.userName ? chatUser.userName : ""}
               </div>
               <div className="text-xs text-gray-500">
-                {currentChat.location && currentChat.location.country}
+                {chatUser.location && chatUser.location.country}
               </div>
             </div>
 
@@ -176,7 +179,9 @@ const Messages = () => {
                 </div>
               </div>
 
-              <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+              {
+                !chatUser._id ? <div className="flex justify-center items-center text-lightBlue"><p>Select an Active conversation</p></div> :
+                <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
                 <div className="flex-grow">
                   <div className="relative w-full">
                     <input
@@ -227,7 +232,8 @@ const Messages = () => {
                     </span>
                   </button>
                 </div>
-              </div>
+              </div>}
+              
             </div>
           </div>
         </div>

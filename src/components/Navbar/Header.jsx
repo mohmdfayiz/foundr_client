@@ -2,54 +2,28 @@ import { Fragment, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setNotification } from "../../features/notification/notificationSlice";
+import { Link } from "react-router-dom";
+import { Account } from "./Account";
+import avatar from "../../assets/man.png";
+import { navigation } from "../../constants";
+import { ProfileModal } from "../Profiles/ProfileModal";
 import {
   showModal,
   setProfile,
 } from "../../features/modalDisplay/matchingProfileSlice";
-import axios from "axios";
-import { Account } from "./Account";
-import avatar from "../../assets/man.png";
-import { navigation } from "../../constants";
-import { setConnectionRequests } from "../../features/loggedUser/loggedUserSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Header() {
+
+  const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.auth);
   const { notifications } = useSelector((state) => state.notification);
 
-  const dispatch = useDispatch();
-  const fetchNotifications = async (token) => {
-    const { data } = await axios.get("/api/user/getNotifications", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return Promise.resolve(data.notifications);
-  };
-
-  const fetchRequests = async (token) => {
-    const { data } = await axios.get("/api/user/getRequests", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return Promise.resolve(data.connectionRequests);
-  };
-
-  useEffect(() => {
-    if (authenticated) {
-      const token = localStorage.getItem("token");
-      fetchNotifications(token).then((data) => {
-        dispatch(setNotification(data));
-      });
-      fetchRequests(token).then((data) => {
-        dispatch(setConnectionRequests(data));
-      });
-    }
-  }, [authenticated]);
-
+  // when user click view profile in notification
   const handleViewProfile = (profile) => {
     dispatch(setProfile(profile));
     dispatch(showModal());
@@ -57,6 +31,7 @@ export default function Header() {
 
   return (
     <Popover className="relative bg-white">
+      {authenticated && <ProfileModal />}
       <div className="mx-3 max-w-7xl px-6">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -131,6 +106,9 @@ export default function Header() {
                         <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative grid gap-3 bg-white px-3 py-4">
+                              {!notifications.length && <div className="flex justify-center items-center">
+                                <p className="text-darkBlue">There is no notification for you.</p>
+                                </div>}
                               {notifications.map((item, index) => (
                                 <div
                                   key={index}

@@ -15,20 +15,23 @@ import { ForgotPassword } from "./Pages/ForgotPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import { EmailVerification } from "./Pages/EmailVerification";
 import { AuthorizeUser } from "./middlewares/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 import {authenticate,unAuthenticate,} from "./features/authentication/authSlice";
+import { setUser } from "./features/loggedUser/loggedUserSlice";
+
 
 function App() {
 
   const dispatch = useDispatch();
-  const authStateListener = () => {
+  const authStateListener = async () => {
     let token = localStorage.getItem("token");
     if (token) {
       try {
-        let decoded = jwt_decode(token);
+        let decoded = await jwt_decode(token);
         if (decoded.exp * 1000 > Date.now()) {
           dispatch(authenticate());
+          dispatch(setUser(decoded.userId))
         } else {
           dispatch(unAuthenticate());
         }
@@ -40,7 +43,7 @@ function App() {
 
   useEffect(() => {
     authStateListener();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Router>

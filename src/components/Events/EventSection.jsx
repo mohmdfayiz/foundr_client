@@ -11,7 +11,8 @@ export const EventSection = () => {
 
   useEffect(() => {
     const getEvents = async () => {
-      const { data } = await axios.get("/api/user/getEvents");
+      // const { data } = await axios.get("/api/user/getEvents");
+      const data = 0
       if (data) {
         setEvents(data.events);
         setLoading(false);

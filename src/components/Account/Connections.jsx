@@ -1,7 +1,8 @@
 import React from "react";
 import { Modal } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
-import { showModal } from "../../features/modalDisplay/connectionSlice";
+import { showConnections } from "../../features/modalDisplay/connectionSlice";
+import { showModal, setProfile } from "../../features/modalDisplay/matchingProfileSlice";
 import avatar from '../../assets/man.png'
 
 function Connections() {
@@ -9,8 +10,17 @@ function Connections() {
   const dispatch = useDispatch();
   const { show } = useSelector((state) => state.connectionsModal);
   const {connections} = useSelector((state) => state.connectionsModal);
+
+  // connection Modal open or close
   function onClick() {
-    dispatch(showModal());
+    dispatch(showConnections());
+  }
+
+  // view selected profile
+  function viewProfile(profile){
+    dispatch(setProfile(profile))
+    dispatch(showConnections())
+    dispatch(showModal())
   }
 
   return (
@@ -43,7 +53,7 @@ function Connections() {
                       {connection?.userName}
                     </span>
                   </div>
-                  <div className="text-xs text-blue-600 dark:text-blue-500">
+                  <div onClick={()=> viewProfile(connection)} className="text-xs text-blue-600 dark:text-blue-500">
                     <span className="text-gray-500 ">Country: {connection.location.country} ,</span> View Profile
                   </div>
                 </div>

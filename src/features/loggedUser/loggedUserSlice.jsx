@@ -2,16 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const loggedUserSlice = createSlice({
     name:'loggedUser',
     initialState:{
-        user:{
-            id:null,
-            profilePhoto:null,
-            connections:[]
-        },
+        userId:'',
         connectionRequests:[]
     },
     reducers:{
         setUser:(state,data) => {
-            state.user = data.payload
+            state.userId = data.payload
         },
         setConnectionRequests:(state,data)=>{
             state.connectionRequests = data.payload

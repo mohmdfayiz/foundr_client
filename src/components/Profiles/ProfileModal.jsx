@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,30 +7,35 @@ import avatar from "../../assets/man.png";
 import linkedIn from "../../assets/linkedin.png";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import jwtDecode from "jwt-decode";
 import { setConnectionRequests } from "../../features/loggedUser/loggedUserSlice";
+import { setChatUser } from "../../features/currentChat/currentChatSlice";
+import { useNavigate } from "react-router-dom";
+import { setNotification } from "../../features/notification/notificationSlice";
 
 export const ProfileModal = () => {
-  const cancelButtonRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cancelButtonRef = useRef(null);
   const { show, profile } = useSelector((state) => state.profileModal);
   const { connectionRequests } = useSelector((state) => state.loggedUser);
+  const [action, setAction] = useState(false);
 
-  async function onClick() {
+  // modal close
+  function onClick() {
     dispatch(showModal());
   }
 
+  // taking token form local storage
   const token = localStorage.getItem("token");
-  const { userId } = jwtDecode(token);
+  const { userId } = useSelector((state) => state.loggedUser);
 
-  const isUserInConnectionRequests = connectionRequests.some(
-    (request) => profile._id === request.sender
+  // Check if the selected user has an existing request with the logged user
+  const existingRequest = connectionRequests.find(
+    (request) =>
+      request.sender === profile._id || request.receiver === profile._id
   );
 
-  const isPending = connectionRequests.some(
-    (request) => userId === request.sender && request.status === "pending"
-  );
-
+  // when user click connect button
   const handleConnection = async (user) => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const data = {
@@ -44,33 +49,68 @@ export const ProfileModal = () => {
       config
     );
     if (status === 201) {
+      setAction(!action);
       toast.success("Request sent successfully");
     }
   };
 
+  // handle response of a rquest came to logged user
   const handleResponse = async (reqFrom, response) => {
     const data = {
       reqFrom,
       response,
-      type:"response",
-      message: response ? "Request accepted,Send a message now!" : "Request rejected, They missed the opportunity!"
+      type: "response",
+      message: response
+        ? "Request accepted,Send a message now!"
+        : "Request rejected, They missed the opportunity!",
+    };
+    const { status } = await axios.post(
+      "/api/user/updateConnectionResponse",
+      data,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (status === 201) {
+      setAction(!action);
+      toast.success(`Connection made successfully`);
     }
-    const {status} = await axios.post('/api/user/updateConnectionResponse',data,{headers:{Authorization: `Bearer ${token}`}})
-    if(status === 201) toast.success(`Connection made successfully`)
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const fetchRequests = async (token) => {
-  //     const { data } = await axios.get("/api/user/getRequests", {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     return Promise.resolve(data.connectionRequests);
-  //   };
-  //   fetchRequests(token).then((data) => {
-  //     dispatch(setConnectionRequests(data));
-  //   });
-  // }, [profile]);
+  // fetch all the connection requests of logged users
+  const fetchRequests = async (token) => {
+    const { data } = await axios.get("/api/user/getRequests", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data.connectionRequests);
+  };
+
+  // fetch all notification from database
+  const fetchNotifications = async (token) => {
+    const { data } = await axios.get("/api/user/getNotifications", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data.notifications);
+  };
+
+  // navigate to chat with Connection
+  const chatWithConnection = (profile) => {
+    dispatch(setChatUser(profile));
+    dispatch(showModal());
+    navigate("/messages");
+  };
+
+  useEffect(() => {
+    fetchRequests(token).then((data) => {
+      dispatch(setConnectionRequests(data));
+      console.log(connectionRequests);
+    });
+  }, [profile._id, action]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetchNotifications(token).then((data) => {
+      dispatch(setNotification(data));
+    });
+  }, [action]);
 
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -141,36 +181,7 @@ export const ProfileModal = () => {
                     </div>
                     <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                       <div className="flex items-center space-x-4 mt-2">
-                        {isUserInConnectionRequests ? (
-                          <button
-                            onClick={() => handleResponse(profile._id,true)}
-                            className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                            </svg>
-                            <span>Accept</span>
-                          </button>
-                        ) : isPending ? (
-                          <button
-                            className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                            </svg>
-                            <span>Requested</span>
-                          </button>
-                        ) : (
+                        {!existingRequest && (
                           <button
                             onClick={() => handleConnection(profile)}
                             className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
@@ -186,6 +197,68 @@ export const ProfileModal = () => {
                             <span>Connect</span>
                           </button>
                         )}
+                        {
+                          connectionRequests.map((request, index) => {
+                            if (
+                              request.sender === profile._id &&
+                              request.status === "pending"
+                            ) {
+                              // Request is towards logged user and is pending
+                              return (
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() =>
+                                      handleResponse(profile._id, true)
+                                    }
+                                    className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-4 w-4"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                    >
+                                      <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                                    </svg>
+                                    <span>Accept</span>
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      handleResponse(profile._id, false)
+                                    }
+                                    className="flex items-center bg-gradient-to-r from-rose-400 to-red-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                                  >
+                                    <span>Reject</span>
+                                  </button>
+                                </div>
+                              );
+                            } else if (
+                              request.receiver === profile._id &&
+                              request.status === "pending"
+                            ) {
+                              // Request is sent by logged user and is pending
+                              return (
+                                <button className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100">
+                                  <span>Requested</span>
+                                </button>
+                              );
+                            } else if (
+                              (request.receiver === profile._id ||
+                                request.sender === profile._id) &&
+                              request.status === "accepted"
+                            ) {
+                              // Request has been accepted
+                              return (
+                                <button
+                                  onClick={() => chatWithConnection(profile)}
+                                  className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                                >
+                                  <span>Message</span>
+                                </button>
+                              );
+                            }
+                          })
+                        }
                       </div>
                     </div>
                   </div>

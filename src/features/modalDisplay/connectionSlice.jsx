@@ -6,7 +6,7 @@ export const connectionSlice = createSlice({
         connections:[]
     },
     reducers:{
-        showModal: (state) => {
+        showConnections: (state) => {
             state.show = !state.show;
         },
         setConnection:(state, data) => {
@@ -15,5 +15,5 @@ export const connectionSlice = createSlice({
     }
 })
 
-export const {showModal, setConnection} = connectionSlice.actions;
+export const {showConnections, setConnection} = connectionSlice.actions;
 export default connectionSlice.reducer;
