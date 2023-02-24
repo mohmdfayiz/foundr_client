@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import { setChatUser } from "../../features/currentChat/currentChatSlice";
 import jwtDecode from "jwt-decode";
+import messageIcon from "../../assets/comment.png"
 
 const Messages = () => {
   const [connections, setConnections] = useState([]);
@@ -99,7 +100,7 @@ const Messages = () => {
           <div className="flex flex-col py-8 pl-6 pr-2 w-64 shrink-0">
             <div className="flex flex-row items-center justify-center h-12 w-full">
               <div className="flex items-center justify-center h-10 w-10">
-                <img src="\src\assets\comment.png" alt="profile" />
+                <img src={messageIcon} alt="profile" />
               </div>
               <div className="ml-2 text-[#91AABA] font-bold text-2xl">
                 Messages

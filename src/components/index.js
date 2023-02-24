@@ -1,7 +1,7 @@
 import Preferences from "./Account/Preferences";
 import ProfileCard from "./Account/ProfileCard";
 import UserDetails from "./Account/UserDetails";
-import {Intro} from "./Intro/Intro";
+import {HeroSection} from "./Hero/HeroSection"
 import EventCard from "./Events/EventCard";
 import EventModal from "./Events/EventModal";
 import { EventSection } from "./Events/EventSection";
@@ -14,7 +14,7 @@ export {
     Preferences,
     ProfileCard,
     UserDetails,
-    Intro,
+    HeroSection,
     EventCard,
     EventModal,
     EventSection,

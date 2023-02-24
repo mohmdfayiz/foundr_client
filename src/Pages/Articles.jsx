@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import articleIcon from "../assets/Document.svg";
 
 export const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -27,7 +28,7 @@ export const Articles = () => {
   return (
     <div>
       <div className="flex items-center m-[3rem]">
-        <img src="src\assets\Document.svg" width={32} alt="article_icon" />
+        <img src={articleIcon} width={32} alt="article_icon" />
         <h2 className="ml-px text-[#91AABA] text-3xl font-bold">Articles</h2>
       </div>
 

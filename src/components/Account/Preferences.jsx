@@ -58,10 +58,12 @@ const Preferences = (props) => {
     setState(typeof value === "string" ? value.split(",") : value);
   };
 
+  // update state when user make any changes on input fields
   const handleChange = (event, setState) => {
     setState(event.target.value);
   };
 
+  // update about you section
   const updateAbout = async (data) => {
     try {
       const token = localStorage.getItem("token");
@@ -74,6 +76,7 @@ const Preferences = (props) => {
     }
   };
 
+  // update cofounder preferences
   const updateCofounderPreference = async (data) => {
     try {
       const token = localStorage.getItem("token");
@@ -101,6 +104,7 @@ const Preferences = (props) => {
     },
   };
 
+  // about you section
   const formik = useFormik({
     initialValues: {
       isTechnical: isTechnical,
@@ -120,6 +124,7 @@ const Preferences = (props) => {
     },
   });
 
+  // cofounder preference section
   const cofounderPreference = useFormik({
     initialValues: {
       activelySeeking,
@@ -364,28 +369,6 @@ const Preferences = (props) => {
           onSubmit={cofounderPreference.handleSubmit}
           className="m-3 flex flex-col gap-3"
         >
-          {/* {QuestionsAboutCofounder.map((Q) => (
-            <div>
-              <h4 className="font-bold">{Q.question}</h4>
-              {Q.subText && (
-                <p className="text-xs text-gray-400">
-                  We can help you find others interested in finding a
-                  co-founder.
-                </p>
-              )}
-              {Q.choices.map((C) => (
-                <div className="flex items-center gap-2">
-                  <Radio
-                    id={C.name+C.value}
-                    name={C.name}
-                    value={C.value}
-                    onChange={(e)=> handlePreference( e.target.value, C.name) }
-                  />
-                  <Label htmlFor={C.name+C.value}>{C.text}</Label>
-                </div>
-              ))}
-            </div>
-          ))} */}
           <div>
             <h4 className="font-bold">
               Are you Actively seeking a co-founder ?

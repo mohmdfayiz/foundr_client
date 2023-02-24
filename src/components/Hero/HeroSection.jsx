@@ -9,7 +9,7 @@ const Button = ({props})=>{
     )
 }
 
-export const Intro = ({login}) => {
+export const HeroSection = ({login}) => {
     const {authenticated} = useSelector((state)=>state.auth)
   return (
     <div className='flex px-[3rem] py-[3rem] items-center justify-center'>

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unAuthenticate } from "../../features/authentication/authSlice";
+import avatar from "../../assets/man.png"
 
 export const Account = () =>{
 
@@ -19,7 +20,7 @@ export const Account = () =>{
       <img
         width={40}
         className="rounded-full"
-        src="\src\assets\man.png"
+        src={avatar}
         alt="profile"
       />
       <div className="dropdown-content">

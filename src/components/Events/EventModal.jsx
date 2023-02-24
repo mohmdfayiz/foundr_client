@@ -1,9 +1,13 @@
-import { Fragment, useState} from 'react'
+import { Fragment} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalVisiblity, } from '../../features/modalDisplay/eventSlice'
 import axios from 'axios'
+import microphone from "../../assets/microphone.png"
+import discord from "../../assets/discord.png"
+import calendar from "../../assets/schedule.png"
+import { toast } from 'react-hot-toast'
 
 export default function EventModal() {
     
@@ -15,10 +19,7 @@ export default function EventModal() {
       const {status} = await axios.post(`/api/user/joinEvent`,{eventId:event._id},{headers:{Authorization: `Bearer ${token}`}})
 
       if(status === 201){
-        const data = {
-          subject: 'Invitation letter for Event.',
-          content: 'Congratulations!, You have sucessfully subscribed to the event'
-        } 
+        toast.success("We have sent an invitaion to your email.")
       }
 
     }
@@ -76,21 +77,21 @@ export default function EventModal() {
                         <div className="mt-6">
                           <h4 className="sr-only">Talk</h4>
                           <div className="flex items-center">
-                            <img src="\src\assets\microphone.png" alt="mike" width={25} />
+                            <img src={microphone} alt="mike" width={25} />
                             <h2 className='ml-2 text-gray-500'>{event.mentorName}</h2>
                           </div>
                         </div>
                         <div className="mt-2">
                           <h4 className="sr-only">Venue</h4>
                           <div className="flex items-center">
-                            <img src="\src\assets\discord.png" alt="Discord" width={25} />
+                            <img src={discord} alt="Discord" width={25} />
                             <h2 className='ml-2 text-gray-500'>{event.venue }</h2>
                           </div>
                         </div>
                         <div className="mt-2">
                           <h4 className="sr-only">Date</h4>
                           <div className="flex items-center">
-                            <img src="\src\assets\schedule.png" alt="Calender" width={25} />
+                            <img src={calendar} alt="Calender" width={25} />
                             <h2 className='ml-2 text-gray-500'>{event.dateAndTime}</h2>
                           </div>
                         </div>
@@ -98,12 +99,9 @@ export default function EventModal() {
 
                       <section aria-labelledby="options-heading" className="mt-5">
                         <h3 id="options-heading" className="my-2 text-darkBlue font-bold">
-                          Join Now !
+                        Get the invitation link to your registered email.
                         </h3>
-
-                        {/* <input onChange={(e)=> setEmail(e.target.value)} className='border border-darkBlue text-gray-600 w-2/3 rounded focus:outline-none p-2' type="text" name="email" placeholder='Enter you email' /> */}
-                        <button onClick={handleJoin} className='border border-darkBlue hover:shadow-md font-bold text-darkBlue py-2 px-3 rounded'>Get the invitation link to your registered email.</button>
-                        
+                        <button onClick={handleJoin} className='border border-darkBlue hover:shadow-md font-bold text-darkBlue py-2 px-3 rounded'>Get the link</button>
                       </section>
                     </div>
                   </div>

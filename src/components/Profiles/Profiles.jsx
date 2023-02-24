@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import avatar from "../../assets/man.png";
-import {ProfileModal} from "./ProfileModal";
 import { useDispatch } from "react-redux";
 import { showModal, setProfile } from "../../features/modalDisplay/matchingProfileSlice";
 
@@ -46,7 +45,7 @@ export const Profiles = () => {
             <p className="text-sm font-bold text-darkBlue">
               {profile.userName}
             </p>
-            <p className="text-xs text-gray-600">country</p>
+            <p className="text-xs text-gray-600">{profile.location.country}</p>
             <button
               onClick={()=>showProfile(profile)}
               className="px-2 py-1 border border-darkBlue rounded-md text-xs mt-1 text-darkBlue"

@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Account } from "./Account";
 import avatar from "../../assets/man.png";
+import logo from "../../assets/logo.svg"
 import { navigation } from "../../constants";
 import { ProfileModal } from "../Profiles/ProfileModal";
 import {
@@ -38,7 +39,7 @@ export default function Header() {
             <Link to="/">
               <img
                 className="h-8 w-auto sm:h-12"
-                src="\src\assets\logo.svg"
+                src={logo}
                 alt="logo"
               />
             </Link>

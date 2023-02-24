@@ -3,6 +3,7 @@ import axios from "axios";
 import { modalVisiblity, setEvent } from "../../features/modalDisplay/eventSlice";
 import { useDispatch } from "react-redux";
 import EventModal from "./EventModal";
+import calendar from '../../assets/schedule.png'
 
 export const EventSection = () => {
   const [events, setEvents] = useState([]);
@@ -11,8 +12,7 @@ export const EventSection = () => {
 
   useEffect(() => {
     const getEvents = async () => {
-      // const { data } = await axios.get("/api/user/getEvents");
-      const data = 0
+      const { data } = await axios.get("/api/user/getEvents");
       if (data) {
         setEvents(data.events);
         setLoading(false);
@@ -73,7 +73,7 @@ export const EventSection = () => {
                 </h2>
                 <div className="flex justify-center items-center">
                   <img
-                    src="\src\assets\schedule.png"
+                    src={calendar}
                     alt="Calender"
                     width={20}
                   />
