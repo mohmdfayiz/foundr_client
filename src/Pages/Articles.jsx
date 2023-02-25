@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import articleIcon from "../assets/Document.svg";
+import dateFormat from "dateformat";
 
 export const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -32,7 +33,7 @@ export const Articles = () => {
         <h2 className="ml-px text-[#91AABA] text-3xl font-bold">Articles</h2>
       </div>
 
-      <div className="flex flex-wrap justify-evenly m-[3rem]">
+      <div className="flex flex-wrap justify-center m-[3rem]">
         {loading
           ? times.map((item, index) => (
               <div
@@ -65,7 +66,7 @@ export const Articles = () => {
                   {article.title}
                 </h2>
                 <p className="text-xs text-lightBlue text-end absolute bottom-4 right-4">
-                  {article.createdAt}
+                  {dateFormat(article.createdAt,"mediumDate")}
                 </p>
               </div>
             ))}

@@ -5,20 +5,19 @@ import { toast, Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../features/authentication/authSlice";
 
-
 export const Otp = () => {
   const [email, setEmail] = useState("");
-  const [userName, setUsername] = useState("")
+  const [userName, setUsername] = useState("");
   const [otp, setOtp] = useState("");
   const [counter, setCounter] = useState(60);
   const location = useLocation();
-  const userData = location.state
+  const userData = location.state;
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setEmail(userData?.email);
-    setUsername(userData?.userName)
+    setUsername(userData?.userName);
   }, []);
 
   useEffect(() => {
@@ -29,18 +28,29 @@ export const Otp = () => {
     e.preventDefault();
     try {
       const { status } = await axios.post(`/api/user/verifyOtp?code=${otp}`);
-      if (status === 201) {
-        await axios.post(`/api/user/signup`, {...userData }).then((response) => {
-          localStorage.setItem('token',JSON.stringify(response.data.token));
-          dispatch(authenticate())
-          navigate("/");
-        });
+      if (status === 200) {
+        if (userName) { // sign up api
+          await axios
+            .post(`/api/user/signup`, { ...userData })
+            .then((response) => {
+              toast.success("Signup success🎉");
+              localStorage.setItem(
+                "token",
+                JSON.stringify(response.data.token)
+              );
+              dispatch(authenticate());
+              navigate("/");
+            });
+        } else { // change password
+          toast.success("OTP Verified.");
+          navigate("/changePassword",{state:{email}});
+        }
       }
     } catch (error) {
-      if(error.response.status === 401){
-        toast.error("Invalid OTP!")
-      }else{
-        toast.error("Something went wrong! Try agian.")
+      if (error.response.status === 401) {
+        toast.error("Invalid OTP!");
+      } else {
+        toast.error("Something went wrong! Try agian.");
       }
     }
   };
@@ -48,16 +58,15 @@ export const Otp = () => {
   const resendOtp = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.get('/api/user/generateOtp')  
-      let content = `OTP for your email verification is ${data.code}`
-
-      //send mail with OTP
-      axios.post('/api/user/sendMail',{userName, email, content}).then(()=>{
-          toast.success('OTP resent successfully')
-          setCounter(60)
-         })
+      const { data } = await axios.get(`/api/user/authenticate?email=${email}`);
+      await axios.post("/api/user/sendMail", {
+        email,
+        content: `OTP for your email verification is ${data.code}`,
+      });
+      setCounter(60);
+      toast.success("OTP has been sent to your email");
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
     }
   };
 

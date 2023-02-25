@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../features/authentication/authSlice";
 import { useFormik } from "formik";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { loginformValidate } from "../middlewares/validate";
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
 
@@ -43,7 +43,6 @@ export const Signin = () => {
 
   return (
     <div className="flex justify-center">
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-3xl font-bold">
           Sign in

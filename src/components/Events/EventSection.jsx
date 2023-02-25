@@ -4,6 +4,7 @@ import { modalVisiblity, setEvent } from "../../features/modalDisplay/eventSlice
 import { useDispatch } from "react-redux";
 import EventModal from "./EventModal";
 import calendar from '../../assets/schedule.png'
+import dateFormat from "dateformat";
 
 export const EventSection = () => {
   const [events, setEvents] = useState([]);
@@ -26,9 +27,7 @@ export const EventSection = () => {
     dispatch(setEvent(event))
     dispatch(modalVisiblity())
   }
-
-  console.log(events);
-
+  
   return (
     <div className="mx-[3rem] my-[3rem]" id="events">
       <EventModal />
@@ -78,7 +77,7 @@ export const EventSection = () => {
                     width={20}
                   />
                   <p className="text-xs text-gray-400 text-center ml-1">
-                    {event.dateAndTime}
+                    {dateFormat(event.dateAndTime,"dddd, mmmm d")}
                   </p>
                 </div>
                 <div className="flex items-center justify-center">

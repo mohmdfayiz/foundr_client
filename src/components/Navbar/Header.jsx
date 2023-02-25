@@ -6,13 +6,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Account } from "./Account";
 import avatar from "../../assets/man.png";
-import logo from "../../assets/logo.svg"
+import foundrLogo from '../../assets/logo.svg'
 import { navigation } from "../../constants";
 import { ProfileModal } from "../Profiles/ProfileModal";
 import {
   showModal,
   setProfile,
 } from "../../features/modalDisplay/matchingProfileSlice";
+import { Toaster } from "react-hot-toast";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -33,13 +34,14 @@ export default function Header() {
   return (
     <Popover className="relative bg-white">
       {authenticated && <ProfileModal />}
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="mx-3 max-w-7xl px-6">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/">
               <img
                 className="h-8 w-auto sm:h-12"
-                src={logo}
+                src={foundrLogo}
                 alt="logo"
               />
             </Link>

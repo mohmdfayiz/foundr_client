@@ -13,9 +13,8 @@ import { ErrorPage } from "./Pages/ErrorPage";
 import { Otp } from "./Pages/Otp";
 import { ForgotPassword } from "./Pages/ForgotPassword";
 import ChangePassword from "./Pages/ChangePassword";
-import { EmailVerification } from "./Pages/EmailVerification";
 import { AuthorizeUser } from "./middlewares/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import {authenticate,unAuthenticate,} from "./features/authentication/authSlice";
 import { setUser } from "./features/loggedUser/loggedUserSlice";
@@ -54,7 +53,6 @@ function App() {
         <Route path="/emailVarification" element={<Otp />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/verifyEmail" element={<EmailVerification />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/article/:id" element={<Article/>} />

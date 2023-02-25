@@ -8,6 +8,7 @@ import microphone from "../../assets/microphone.png"
 import discord from "../../assets/discord.png"
 import calendar from "../../assets/schedule.png"
 import { toast } from 'react-hot-toast'
+import dateFormat from "dateformat";
 
 export default function EventModal() {
     
@@ -92,7 +93,7 @@ export default function EventModal() {
                           <h4 className="sr-only">Date</h4>
                           <div className="flex items-center">
                             <img src={calendar} alt="Calender" width={25} />
-                            <h2 className='ml-2 text-gray-500'>{event.dateAndTime}</h2>
+                            <h2 className='ml-2 text-gray-500'>{dateFormat(event.dateAndTime, "dddd, mmmm d, h:MM TT")}</h2>
                           </div>
                         </div>
                       </section>

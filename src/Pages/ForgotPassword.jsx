@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!email) return toast.error("Email required");
-    axios({
-      method: "POST",
-      url: `http://localhost:8000/api/user/verifyUser`,
-      data: {email},
-    })
-      .then((res) => {
-        toast.success("OTP sent successfully.");
-        axios.post('http://localhost:8000/api/user/sendMail',({email})).then(()=>{
-          navigate('/emailVarification',{ state: { data: {email:email} } })
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-        if(err.response.status === 404) toast.error("User with this Email not found!")
-        else toast.error("Oops, something went wrong!");
+    if (!email) return toast.error("Email required");
+    try {
+      const { data } = await axios.get(`/api/user/authenticate?email=${email}`);
+      await axios.post("/api/user/sendMail", {
+        email,
+        content: `OTP for your email verification is ${data.code}`,
       });
+      toast.success("OTP has been sent to your email");
+      navigate("/emailVarification", { state: { email } });
+    } catch (error) {
+      toast.error("Invalid email!")
+    }
   };
 
   return (
     <div className="flex justify-center">
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="my-[4rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-2xl font-bold">
           Forgot Password?
@@ -49,7 +43,7 @@ export const ForgotPassword = () => {
             type="text"
             name="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             className="border border-gray-400 rounded focus:outline-none w-full h-10 p-3 text-darkBlue"
           />
 

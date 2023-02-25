@@ -61,7 +61,7 @@ export const ProfileModal = () => {
       response,
       type: "response",
       message: response
-        ? "Request accepted,Send a message now!"
+        ? "Request accepted, Send a message now!"
         : "Request rejected, They missed the opportunity!",
     };
     const { status } = await axios.post(
@@ -71,7 +71,9 @@ export const ProfileModal = () => {
     );
     if (status === 201) {
       setAction(!action);
-      toast.success(`Connection made successfully`);
+      response
+        ? toast.success(`Connection made successfully`)
+        : toast.success("Connection rejected.");
     }
   };
 
@@ -101,7 +103,6 @@ export const ProfileModal = () => {
   useEffect(() => {
     fetchRequests(token).then((data) => {
       dispatch(setConnectionRequests(data));
-      console.log(connectionRequests);
     });
   }, [profile._id, action]);
 
@@ -197,68 +198,66 @@ export const ProfileModal = () => {
                             <span>Connect</span>
                           </button>
                         )}
-                        {
-                          connectionRequests.map((request, index) => {
-                            if (
-                              request.sender === profile._id &&
-                              request.status === "pending"
-                            ) {
-                              // Request is towards logged user and is pending
-                              return (
-                                <div className="flex gap-2">
-                                  <button
-                                    onClick={() =>
-                                      handleResponse(profile._id, true)
-                                    }
-                                    className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-4 w-4"
-                                      viewBox="0 0 20 20"
-                                      fill="currentColor"
-                                    >
-                                      <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                                    </svg>
-                                    <span>Accept</span>
-                                  </button>
-                                  <button
-                                    onClick={() =>
-                                      handleResponse(profile._id, false)
-                                    }
-                                    className="flex items-center bg-gradient-to-r from-rose-400 to-red-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
-                                  >
-                                    <span>Reject</span>
-                                  </button>
-                                </div>
-                              );
-                            } else if (
-                              request.receiver === profile._id &&
-                              request.status === "pending"
-                            ) {
-                              // Request is sent by logged user and is pending
-                              return (
-                                <button className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100">
-                                  <span>Requested</span>
-                                </button>
-                              );
-                            } else if (
-                              (request.receiver === profile._id ||
-                                request.sender === profile._id) &&
-                              request.status === "accepted"
-                            ) {
-                              // Request has been accepted
-                              return (
+                        {connectionRequests.map((request, index) => {
+                          if (
+                            request.sender === profile._id &&
+                            request.status === "pending"
+                          ) {
+                            // Request is towards logged user and is pending
+                            return (
+                              <div className="flex gap-2">
                                 <button
-                                  onClick={() => chatWithConnection(profile)}
+                                  onClick={() =>
+                                    handleResponse(profile._id, true)
+                                  }
                                   className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
                                 >
-                                  <span>Message</span>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                  >
+                                    <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
+                                  </svg>
+                                  <span>Accept</span>
                                 </button>
-                              );
-                            }
-                          })
-                        }
+                                <button
+                                  onClick={() =>
+                                    handleResponse(profile._id, false)
+                                  }
+                                  className="flex items-center bg-gradient-to-r from-rose-400 to-red-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                                >
+                                  <span>Reject</span>
+                                </button>
+                              </div>
+                            );
+                          } else if (
+                            request.receiver === profile._id &&
+                            request.status === "pending"
+                          ) {
+                            // Request is sent by logged user and is pending
+                            return (
+                              <button className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100">
+                                <span>Requested</span>
+                              </button>
+                            );
+                          } else if (
+                            (request.receiver === profile._id ||
+                              request.sender === profile._id) &&
+                            request.status === "accepted"
+                          ) {
+                            // Request has been accepted
+                            return (
+                              <button
+                                onClick={() => chatWithConnection(profile)}
+                                className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm space-x-2 transition duration-100"
+                              >
+                                <span>Message</span>
+                              </button>
+                            );
+                          }
+                        })}
                       </div>
                     </div>
                   </div>

@@ -17,7 +17,7 @@ const Messages = () => {
   const { chatUser } = useSelector((state) => state.currentChat);
   const scrolRef = useRef();
   const socket = useRef();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem("token");

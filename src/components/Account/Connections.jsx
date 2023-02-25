@@ -18,9 +18,9 @@ function Connections() {
 
   // view selected profile
   function viewProfile(profile){
-    dispatch(setProfile(profile))
-    dispatch(showConnections())
-    dispatch(showModal())
+    dispatch(setProfile(profile)) // set selected profile
+    dispatch(showConnections()) // close connections modal
+    dispatch(showModal()) // open profile modal
   }
 
   return (
@@ -38,7 +38,6 @@ function Connections() {
                 href="#"
                 className="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                {console.log(connection)}
                 <div className="flex-shrink-0">
                   <img
                     className="rounded-full w-11 h-11"

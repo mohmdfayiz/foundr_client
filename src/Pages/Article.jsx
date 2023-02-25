@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import dateFormat from "dateformat";
 
 function Article() {
 
@@ -16,13 +17,13 @@ function Article() {
             className="w-full h-[250px] object-cover"
           />
         </div>
-        <div className="px-5 flex justify-between">
+        <div className="px-8 flex justify-between">
           <h2 className="text-2xl text-darkBlue font-bold">
             {article.title}
           </h2>
-            <p className="text-gray-500">{article.createdAt}</p>
+            <p className="text-gray-500 text-sm">{dateFormat(article.createdAt,"fullDate")}</p>
         </div>
-        <div className="px-5 pb-8">
+        <div className="px-8 pb-8">
           <div className="text-gray-600" dangerouslySetInnerHTML={{__html: article.content}} />
         </div>
       </div>

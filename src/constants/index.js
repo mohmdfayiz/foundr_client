@@ -1,8 +1,10 @@
+import Verified from "../../src/assets/Verified.svg"
+import Browse from "../../src/assets/Browse.svg"
 
 export const tileData = [
     {
         id:1,
-        icon:"/src/assets/Verified.svg",
+        icon: Verified,
         title:"Thousands of co-founders await",
         text:"Join the largest co-founder matching platform to find the strongest candidate that’s right for you.", 
     },
@@ -14,7 +16,7 @@ export const tileData = [
     },
     {
         id:3,
-        icon:'/src/assets/Browse.svg',
+        icon:Browse,
         title:"Participate in events",
         text:"Participate in events that are conducting by leading industrial experts though online or offline."
     }
