@@ -5,7 +5,7 @@ import { authenticate } from "../features/authentication/authSlice";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { loginformValidate } from "../middlewares/validate";
-axios.defaults.baseURL = import.meta.env.VITE_SERVER_DOMAIN;
+axios.defaults.baseURL = 'https://www.server.foundr.site/'
 
 export const Signin = () => {
   const navigate = useNavigate();
