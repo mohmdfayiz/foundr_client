@@ -20,24 +20,19 @@ export const Signin = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      
-      let checking = toast.loading("Checking...");
-      axios
-        .post("/api/user/signin", { ...values })
-        .then((res) => {
-          toast.dismiss(checking);
-          let { token } = res.data;
-          localStorage.setItem("token", JSON.stringify(token));
+      try {
+        const { data, status } = await axios.post("/api/user/signin", { ...values });
+        if (status === 200) {
+          toast.success("Login success");
+          localStorage.setItem("token", JSON.stringify(data.token));
           dispatch(authenticate());
           navigate("/", { replace: "true" });
-        })
-        .catch((error) => {
-          toast.dismiss();
-          if (error.response?.status === 404) toast.error("Invalid email");
-          else if (error.response?.status === 401)
-            toast.error("Invalid password");
-          else toast.error("Something went wrong, Try agian.");
-        });
+        }else{
+          toast.error("Invalid credentials!")
+        }
+      } catch (error) {
+        toast.error("Something went wrong, Try again.");
+      }
     },
   });
 

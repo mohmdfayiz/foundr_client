@@ -20,8 +20,8 @@ export const Signup = () => {
         const {email,userName} = values; 
         // verify user already exist or not, and get OTP
         const { data } = await axios.get(`/api/user/verifyUser?email=${email}`)
-        let content = `OTP for your email verification is ${data.code}`
         //send mail with OTP
+        let content = `OTP for your email verification is ${data.code}`
         axios.post('/api/user/sendMail',{userName, email, content}).then(()=>{
               toast.success("An OTP has been sent to your email.")
               navigate('/emailVarification', {state:{...values}})

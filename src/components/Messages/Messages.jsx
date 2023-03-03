@@ -3,21 +3,26 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import { setChatUser } from "../../features/currentChat/currentChatSlice";
-import jwtDecode from "jwt-decode";
-import messageIcon from "../../assets/comment.png"
+import EmojiPicker from "emoji-picker-react";
+import messageIcon from "../../assets/comment.png";
 
 const Messages = () => {
   const [connections, setConnections] = useState([]);
   const [message, setMessage] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [showEmogies, setShowEmogies] = useState(false);
+  const [chosenEmoji, setChosenEmoji] = useState(null);
 
-  const token = localStorage.getItem('token')
-  const {userId} = jwtDecode(token)
+  const { userId } = useSelector((state) => state.loggedUser);
   const { chatUser } = useSelector((state) => state.currentChat);
   const scrolRef = useRef();
   const socket = useRef();
   const dispatch = useDispatch();
+
+  const onEmojiClick = (event, emojiObject) => {
+    setInputMessage(emojiObject)
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -48,7 +53,7 @@ const Messages = () => {
   });
 
   const handleSelect = (user) => {
-    dispatch(setChatUser(user))
+    dispatch(setChatUser(user));
   };
 
   useEffect(() => {
@@ -78,6 +83,7 @@ const Messages = () => {
     await axios.post("/api/user/sendMessage", data, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    setInputMessage('')
     setMessage(message.concat(messages));
   };
 
@@ -108,12 +114,16 @@ const Messages = () => {
             </div>
             <div className="flex flex-col items-center border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
               <div className="h-20 w-20 rounded-full border overflow-hidden">
-                <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
-                  {chatUser.userName && chatUser.userName[0]}
-                </div>
+                {chatUser.profilePhoto ? (
+                  <img src={chatUser.profilePhoto} alt="profilePhoto" />
+                ) : (
+                  <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
+                    {chatUser.userName && chatUser.userName[0]}
+                  </div>
+                )}
               </div>
               <div className="text-sm font-semibold mt-2">
-                {chatUser.userName ? chatUser.userName : ""}
+                {chatUser.userName && chatUser.userName}
               </div>
               <div className="text-xs text-gray-500">
                 {chatUser.location && chatUser.location.country}
@@ -134,8 +144,14 @@ const Messages = () => {
                     onClick={() => handleSelect(user)}
                     className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
                   >
-                    <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                      {user?.userName[0]} {console.log(user)}
+                    <div className="flex items-center justify-center overflow-hidden h-8 w-8 bg-indigo-200 rounded-full">
+                      {user.profilePhoto ? (
+                        <img src={user.profilePhoto} alt="profilePhoto" />
+                      ) : (
+                        <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
+                          {user.userName && user.userName[0]}
+                        </div>
+                      )}
                     </div>
                     <div className="ml-2 text-sm font-semibold">
                       {user?.userName}
@@ -180,61 +196,79 @@ const Messages = () => {
                 </div>
               </div>
 
-              {
-                !chatUser._id ? <div className="flex justify-center items-center text-lightBlue"><p>Select an Active conversation</p></div> :
-                <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
-                <div className="flex-grow">
-                  <div className="relative w-full">
-                    <input
-                      onChange={(e) => setInputMessage(e.target.value)}
-                      type="text"
-                      className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+              {!chatUser._id ? (
+                <div className="flex justify-center items-center text-lightBlue">
+                  <p>Select an Active conversation</p>
+                </div>
+              ) : (
+                <div>
+                  {showEmogies && (
+                    <EmojiPicker
+                      onEmojiClick={onEmojiClick}
+                      height={"400px"}
+                      autoFocusSearch={false}
+                      previewConfig={{ showPreview: false }}
+                      skinTonesDisabled={true}
                     />
-                    <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+                  )}
+                  <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+                  <div className="flex-grow">
+                    <div className="relative w-full">
+                      <input
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        value={inputMessage}
+                        type="text"
+                        className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+                      />
+                      <button
+                        onClick={() => setShowEmogies(!showEmogies)}
+                        className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path>
-                      </svg>
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <button
+                      onClick={sendmsg}
+                      className="flex items-center justify-center bg-darkBlue hover:bg-lightBlue rounded-xl text-white px-4 py-1 flex-shrink-0"
+                    >
+                      <span>Send</span>
+                      <span className="ml-2">
+                        <svg
+                          className="w-4 h-4 transform rotate-45 -mt-px"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                          ></path>
+                        </svg>
+                      </span>
                     </button>
                   </div>
                 </div>
-
-                <div className="ml-4">
-                  <button
-                    onClick={sendmsg}
-                    className="flex items-center justify-center bg-darkBlue hover:bg-lightBlue rounded-xl text-white px-4 py-1 flex-shrink-0"
-                  >
-                    <span>Send</span>
-                    <span className="ml-2">
-                      <svg
-                        className="w-4 h-4 transform rotate-45 -mt-px"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                        ></path>
-                      </svg>
-                    </span>
-                  </button>
                 </div>
-              </div>}
-              
+                
+              )}
             </div>
           </div>
         </div>
