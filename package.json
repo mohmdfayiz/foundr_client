@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://foundrserver-env.eba-muh2ntp4.ap-south-1.elasticbeanstalk.com/",
+  "proxy": "https://www.server.foundr.site/",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
