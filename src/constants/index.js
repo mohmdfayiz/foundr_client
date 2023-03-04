@@ -10,7 +10,7 @@ export const tileData = [
     },
     {
         id: 2,
-        icon: '/src/assets/Award.svg',
+        icon: '/images/Award.svg',
         title: "Learn from experts",
         text: "Learn from experts who have succeed in their industries and doing business."
     },

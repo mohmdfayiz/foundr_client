@@ -17,7 +17,7 @@ const Paypal = ({ event }) => {
             description: event.mentorName,
             amount: {
               currency_code: "USD",
-              value: 49,
+              value: event.enrollmentFee,
             },
           },
         ],

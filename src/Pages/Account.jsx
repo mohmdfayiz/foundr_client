@@ -18,7 +18,7 @@ export const Account = () => {
   }, []);
 
   return (
-    <div className="m-[3rem]">
+    <div className="sm:m-[3rem]">
       <div className="p-[1.5rem] grid grid-cols-12 gap-4 ">
         <ProfileCard
           profilePhoto={userDetails?.profilePhoto}

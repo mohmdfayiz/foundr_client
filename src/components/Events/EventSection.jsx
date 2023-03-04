@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { modalVisiblity, setEvent } from "../../features/modalDisplay/eventSlice";
 import { useDispatch } from "react-redux";
-import EventModal from "./EventModal";
 import calendar from '../../assets/schedule.png'
 import dateFormat from "dateformat";
 
@@ -30,7 +29,6 @@ export const EventSection = () => {
   
   return (
     <div className="mx-[3rem] my-[3rem]" id="events">
-      <EventModal />
       <div className="text-center my-[3rem]">
         <h1 className="md:text-3xl text-xl font-bold text-darkBlue">
           GAME-CHANGING ADVICE FROM

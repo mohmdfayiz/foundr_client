@@ -123,15 +123,20 @@ export default function EventModal() {
                         className="mt-5"
                       >
                         {!registered && (
-                          <h3
-                            id="options-heading"
-                            className="my-2 text-sm text-darkBlue font-bold"
-                          >
-                            Complete the payment & Get the invitation link to
-                            your registered Email.
-                          </h3>
+                          <div>
+                            <p
+                              id="options-heading"
+                              className="text-md text-darkBlue font-bold"
+                            >
+                              Join now for just ${event.enrollmentFee}{" "}
+                              dollars!
+                            </p>
+                            <span className="text-sm text-darkBlue">
+                              Get the invitation link to your registered Email.
+                            </span>
+                          </div>
                         )}
-                        {authenticated ? (
+                        {authenticated && !registered ? (
                           <Paypal event={event} />
                         ) : (
                           <Link

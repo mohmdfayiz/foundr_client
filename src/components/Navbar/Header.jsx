@@ -1,34 +1,29 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Account } from "./Account";
-import foundrLogo from '../../assets/logo.svg'
+import foundrLogo from "../../assets/logo.svg";
 import { navigation } from "../../constants";
 import { ProfileModal } from "../Profiles/ProfileModal";
+import EventModal from "../Events/EventModal";
 import { Toaster } from "react-hot-toast";
 
 export default function Header() {
 
-  const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.auth);
-
- 
 
   return (
     <Popover className="relative bg-white">
       {authenticated && <ProfileModal />}
+      <EventModal />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="mx-3 max-w-7xl px-6">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/">
-              <img
-                className="h-8 w-auto sm:h-12"
-                src={foundrLogo}
-                alt="logo"
-              />
+              <img className="h-8 w-auto sm:h-12" src={foundrLogo} alt="logo" />
             </Link>
           </div>
           <div className="-my-2 -mr-2 md:hidden">

@@ -9,7 +9,7 @@ function Article() {
 
   return (
     <div>
-      <div className="m-[3rem] border rounded-lg flex flex-col gap-4 bg-white">
+      <div className=" sm:m-[3rem] border rounded-lg flex flex-col gap-4 bg-white">
         <div>
           <img
             src={article.coverImage}
