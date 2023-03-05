@@ -6,6 +6,13 @@ export const AuthorizeUser = ({ children }) =>{
     if(!token){
        return <Navigate to={'/signin'} replace={true}></Navigate>
     }
+    return children;
+}
 
+export const RedirectUser = ({children}) => {
+    const token = localStorage.getItem('token');
+    if(token){
+        return <Navigate to={'/'}></Navigate>
+    }
     return children;
 }

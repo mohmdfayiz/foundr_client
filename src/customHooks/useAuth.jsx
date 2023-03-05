@@ -1,15 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../features/loggedUser/loggedUserSlice";
-import {
-  authenticate,
-  unAuthenticate,
-} from "../features/authentication/authSlice";
-
+import { useDispatch } from "react-redux";
+import { setUser } from "../app/slices/loggedUserSlice";
 const useAuth = () => {
-  const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch()
+  const [authenticated, setAuthenticated] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,10 +13,10 @@ const useAuth = () => {
 
     const decoded = jwtDecode(token);
     if (decoded.exp * 1000 > Date.now()) {
-      dispatch(authenticate());
+      setAuthenticated(true)
       dispatch(setUser(decoded.userId));
     } else {
-      dispatch(unAuthenticate());
+      setAuthenticated(false)
     }
   }, []);
 

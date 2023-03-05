@@ -8,8 +8,8 @@ function Article() {
     const article = location.state?.article;
 
   return (
-    <div>
-      <div className=" sm:m-[3rem] border rounded-lg flex flex-col gap-4 bg-white">
+    <div className="max-w-7xl container mx-auto">
+      <div className="sm:m-[3rem] border rounded-lg flex flex-col gap-4 bg-white">
         <div>
           <img
             src={article.coverImage}
@@ -17,7 +17,7 @@ function Article() {
             className="w-full h-[250px] object-cover"
           />
         </div>
-        <div className="px-8 flex justify-between">
+        <div className="px-8">
           <h2 className="text-2xl text-darkBlue font-bold">
             {article.title}
           </h2>

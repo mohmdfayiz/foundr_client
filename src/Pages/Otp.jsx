@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { authenticate } from "../features/authentication/authSlice";
+import { authenticate } from "../app/slices/authSlice";
 
 export const Otp = () => {
   const [email, setEmail] = useState("");
@@ -66,14 +66,15 @@ export const Otp = () => {
       setCounter(60);
       toast.success("OTP has been sent to your email");
     } catch (error) {
-      console.log(error.response);
+      if(error.response.status === 404) toast.error("Email id required");
+      else toast.error("Something went wrong, Try again!");
     }
   };
 
   return (
     <div className="flex justify-center">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
+      <div className="my-[3rem] mx-4 py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-3xl font-bold">OTP</h2>
         <form className="px-[3rem] my-[1rem]" onSubmit={handleSubmit}>
           <label className="text-sm text-darkBlue mt-5" htmlFor="email">

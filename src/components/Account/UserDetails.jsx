@@ -13,7 +13,6 @@ const PersonalInfo = (props) => {
     if (props) {
       setUserDetails(props);
       setTempUserDetails(props);
-      console.log(tempUserDetails);
     }
   }, [props]);
 
@@ -35,7 +34,6 @@ const PersonalInfo = (props) => {
         toast.success("User profile updated successfully");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Sorry, something went wrong!");
     }
   };

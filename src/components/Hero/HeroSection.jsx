@@ -14,7 +14,7 @@ const Button = ({ props }) => {
 export const HeroSection = ({ login }) => {
   const { authenticated } = useSelector((state) => state.auth);
   return (
-    <div className="flex px-[3rem] py-[2rem] items-center justify-center">
+    <div className="flex px-[3rem] py-[3rem] gap-5 container max-w-7xl  mx-auto items-center justify-center">
       <div>
         <div className="flex justify-center">
           <img

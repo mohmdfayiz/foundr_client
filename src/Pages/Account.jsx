@@ -12,7 +12,6 @@ export const Account = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserDetails(data.userDetails);
-      console.log(data);
     };
     getUserDetails();
   }, []);
@@ -26,26 +25,8 @@ export const Account = () => {
           email={userDetails.email}
           connections={userDetails.connections}
         />
-        <UserDetails
-          intro={userDetails?.intro}
-          gender={userDetails?.gender}
-          age={userDetails?.age}
-          location={userDetails?.location}
-        />
-        <Preferences 
-          isTechnical = {userDetails?.isTechnical}
-          haveIdea = {userDetails?.haveIdea}
-          accomplishments = {userDetails?.accomplishments}
-          education = {userDetails?.education}
-          employment = {userDetails?.employment}
-          responsibilities = {userDetails?.responsibilities}
-          interests = {userDetails?.interests}
-          activelySeeking = {userDetails?.activelySeeking}
-          cofounderTechnical = {userDetails?.cofounderTechnical}
-          cofounderHasIdea = {userDetails?.cofounderHasIdea}
-          locationPreference = {userDetails?.locationPreference}
-          cofounderResponsibilities = {userDetails?.cofounderResponsibilities}
-        />
+        <UserDetails {...userDetails}/>
+        <Preferences {...userDetails}/>
       </div>
     </div>
   );

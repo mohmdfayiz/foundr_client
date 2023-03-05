@@ -28,9 +28,7 @@ const Preferences = (props) => {
   const [cofounderTechnical, setCofounderTechnical] = useState(null);
   const [cofounderHasIdea, setCofounderHasIdea] = useState(null);
   const [locationPreference, setLocationPreference] = useState(null);
-  const [cofounderResponsibilities, setCofounderResponsibilities] = useState(
-    []
-  );
+  const [cofounderResponsibilities, setCofounderResponsibilities] = useState([]);
 
   const [aboutUser, setAboutUser] = useState({}); // api data
   useEffect(() => {

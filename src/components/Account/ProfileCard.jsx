@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Connections from "./Connections";
 import { useDispatch } from "react-redux";
-import { showConnections, setConnection } from "../../features/modalDisplay/connectionSlice";
+import { showConnections, setConnection } from "../../app/slices/connectionSlice";
 import { toast } from "react-hot-toast";
 import { ProfileModal } from "../Profiles/ProfileModal";
 

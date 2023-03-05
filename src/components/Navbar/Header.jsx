@@ -1,32 +1,39 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Account } from "./Account";
 import foundrLogo from "../../assets/logo.svg";
 import { navigation } from "../../constants";
 import { ProfileModal } from "../Profiles/ProfileModal";
-import EventModal from "../Events/EventModal";
 import { Toaster } from "react-hot-toast";
+import { unAuthenticate } from "../../app/slices/authSlice";
+import Notifications from "./Notifications";
 
 export default function Header() {
-
   const { authenticated } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // logout
+  function userLogout() {
+    localStorage.removeItem("token");
+    dispatch(unAuthenticate());
+    navigate("/", { replace: true });
+  }
   return (
     <Popover className="relative bg-white">
       {authenticated && <ProfileModal />}
-      <EventModal />
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div className="mx-3 max-w-7xl px-6">
+      <div className="mx-auto container max-w-7xl px-6">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to="/">
               <img className="h-8 w-auto sm:h-12" src={foundrLogo} alt="logo" />
             </Link>
           </div>
-          <div className="-my-2 -mr-2 md:hidden">
+          <div className="-my-2 -mr-2 flex gap-2 items-center md:hidden">
+            {authenticated && <Notifications />}
             <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span className="sr-only">Open menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -56,6 +63,7 @@ export default function Header() {
               >
                 Events
               </Link>
+              {authenticated && <Notifications />}
               {authenticated && <Account />}
             </Popover.Group>
           </div>
@@ -79,11 +87,7 @@ export default function Header() {
             <div className="px-5 pt-5 pb-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <img
-                    className="h-8 w-auto"
-                    src="/src/assets/logo.svg"
-                    alt="logo"
-                  />
+                  <img className="h-8 w-auto" src={foundrLogo} alt="logo" />
                 </div>
                 <div className="-mr-2">
                   <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-darkBlue">
@@ -109,12 +113,21 @@ export default function Header() {
               </div>
             </div>
             <div className="py-3 px-8">
-              <Link
-                to="/"
-                className="text-base font-medium text-gray-900 hover:text-gray-700"
-              >
-                Logout
-              </Link>
+              {authenticated ? (
+                <div
+                  onClick={userLogout}
+                  className="text-base cursor-pointer font-medium text-gray-900 hover:text-gray-700"
+                >
+                  Logout
+                </div>
+              ) : (
+                <Link
+                  to={'/signin'}
+                  className="text-base cursor-pointer font-medium text-gray-900 hover:text-gray-700"
+                >
+                  Sign in
+                </Link>
+              )}
             </div>
           </div>
         </Popover.Panel>

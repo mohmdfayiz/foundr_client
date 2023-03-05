@@ -2,16 +2,16 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
-import { showModal } from "../../features/modalDisplay/matchingProfileSlice";
+import { showModal } from "../../app/slices/matchingProfileSlice";
 import avatar from "../../assets/man.png";
 import linkedIn from "../../assets/linkedin.png";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { setConnectionRequests } from "../../features/loggedUser/loggedUserSlice";
-import { setChatUser } from "../../features/currentChat/currentChatSlice";
+import { setConnectionRequests } from "../../app/slices/loggedUserSlice";
+import { setChatUser } from "../../app/slices/currentChatSlice";
 import { useNavigate } from "react-router-dom";
-import { setNotification } from "../../features/notification/notificationSlice";
-
+import { setNotification } from "../../app/slices/notificationSlice";
+import profileBackground from "../../assets/profile-background.jpg"
 export const ProfileModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -152,11 +152,11 @@ export const ProfileModal = () => {
                 >
                   <CloseIcon />
                 </div>
-                <div className="px-16 py-10">
+                <div className="sm:px-16 py-10">
                   <div className="bg-white rounded-lg shadow-xl pb-5">
                     <div className="w-full h-[200px]">
                       <img
-                        src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
+                        src={profileBackground}
                         className="w-full h-full rounded-tl-lg rounded-tr-lg"
                       />
                     </div>
@@ -292,15 +292,15 @@ export const ProfileModal = () => {
                       <p className="col-span-2 text-sm font-semibold">
                         Is Technical
                       </p>
-                      <span className="py-1 border text-center border-gray-600 text-sm rounded-md">
-                        {profile?.isTechnical ? "Yes" : "No"}
+                      <span className="bg-slate-100  text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
+                      {profile?.isTechnical ? "Yes" : "No"}
                       </span>
                     </div>
                     <div className="grid grid-cols-8">
                       <p className="col-span-2 text-sm font-semibold">
                         Has Idea
                       </p>
-                      <span className="py-1 border text-center border-gray-600 text-sm rounded-md">
+                      <span className="bg-slate-100  text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
                         {profile?.haveIdea ? "Yes" : "No"}
                       </span>
                     </div>
@@ -308,18 +308,24 @@ export const ProfileModal = () => {
                       <p className="col-span-2 text-sm font-semibold">
                         Interests
                       </p>
-                      <span className="py-1 border text-center col-span-6 border-gray-600 text-sm rounded-md">
-                        {profile?.interests?.map((interest) => interest + ", ")}
+                      <span className="py-1 col-span-6 flex flex-wrap text-sm">
+                        {profile?.interests?.map((interest) => (
+                          <span key={interest} className="bg-slate-100  text-gray-500 m-1 rounded-md py-1 px-2">
+                            {interest}
+                          </span>
+                        ))}
                       </span>
                     </div>
                     <div className="grid grid-cols-8">
                       <p className="col-span-2 text-sm font-semibold">
                         Responsibilities
                       </p>
-                      <span className="py-1 border text-center col-span-6 border-gray-600 text-sm rounded-md">
-                        {profile?.responsibilities?.map(
-                          (interest) => interest + ", "
-                        )}
+                      <span className="py-1 col-span-6 flex flex-wrap text-sm">
+                        {profile?.responsibilities?.map((responsibility) => (
+                          <span key={responsibility} className="bg-slate-100  text-gray-500 m-1 rounded-md py-1 px-2">
+                            {responsibility}
+                          </span>
+                        ))}
                       </span>
                     </div>
                   </div>

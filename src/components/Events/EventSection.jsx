@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { modalVisiblity, setEvent } from "../../features/modalDisplay/eventSlice";
-import { useDispatch } from "react-redux";
-import calendar from '../../assets/schedule.png'
-import dateFormat from "dateformat";
+import EventCard from "./EventCard";
+import EventModal from "./EventModal";
+import { useSelector } from "react-redux";
 
 export const EventSection = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const times = Array.from({ length: 4 });
+  const { paymentStatus } = useSelector((state) => state.eventModal);
 
   useEffect(() => {
     const getEvents = async () => {
@@ -19,20 +19,16 @@ export const EventSection = () => {
       }
     };
     getEvents();
-  }, []);
+  }, [paymentStatus]);
 
-  const dispatch = useDispatch()
-  const handleClick = (event) => {
-    dispatch(setEvent(event))
-    dispatch(modalVisiblity())
-  }
-  
   return (
-    <div className="mx-[3rem] my-[3rem]" id="events">
+    <div className="mx-auto container my-[3rem]" id="events">
+      <EventModal />
       <div className="text-center my-[3rem]">
-        <h1 className="md:text-3xl text-xl font-bold text-darkBlue">
+        <h1 className="sm:text-3xl text-lg font-bold text-darkBlue">
           GAME-CHANGING ADVICE FROM
-          <br />
+        </h1>
+        <h1 className="sm:text-3xl text-lg font-bold text-darkBlue">
           FOUNDERS WHO HAVE MADE MILLIONS
         </h1>
       </div>
@@ -59,34 +55,7 @@ export const EventSection = () => {
               </div>
             ))
           : events.map((event, index) => (
-              <div key={index} className="eventCard p-3 rounded-md shadow-md ">
-                <img
-                  className="coverImage"
-                  src={event.mentorImage}
-                  alt="coverImg"
-                />
-                <h2 className="font-bold text-darkBlue text-center my-1">
-                  {event.mentorName}
-                </h2>
-                <div className="flex justify-center items-center">
-                  <img
-                    src={calendar}
-                    alt="Calender"
-                    width={20}
-                  />
-                  <p className="text-xs text-gray-400 text-center ml-1">
-                    {dateFormat(event.dateAndTime,"dddd, mmmm d")}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center">
-                  <button
-                    onClick={ ()=> handleClick(event)}
-                    className="bg-darkBlue py-2 px-3 rounded-3xl text-white font-medium mt-2 hover:shadow-lg,border border-black"
-                  >
-                    Join Now
-                  </button>
-                </div>
-              </div>
+              <EventCard event={event} key={index} />
             ))}
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useSelector, useDispatch } from "react-redux";
-import { modalVisiblity } from "../../features/modalDisplay/eventSlice";
+import { modalVisiblity } from "../../app/slices/eventSlice";
 import microphone from "../../assets/microphone.png";
 import discord from "../../assets/discord.png";
 import calendar from "../../assets/schedule.png";
@@ -12,14 +12,19 @@ import Paypal from "./Paypal";
 
 export default function EventModal() {
   const dispatch = useDispatch();
-  const { visible, event } = useSelector((state) => state.eventModal);
+  const { visible, event, paymentStatus } = useSelector(
+    (state) => state.eventModal
+  );
   const { authenticated } = useSelector((state) => state.auth);
   const { userId } = useSelector((state) => state.loggedUser);
   const [registered, setRegistered] = useState(false);
 
   useEffect(() => {
-    authenticated && setRegistered(event?.attendees?.includes(userId));
-  }, []);
+    if (authenticated) {
+      const check = event?.attendees?.includes(userId);
+      setRegistered(check);
+    }
+  }, [event._id]);
 
   return (
     <Transition.Root show={visible} as={Fragment}>
@@ -37,7 +42,7 @@ export default function EventModal() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -122,26 +127,39 @@ export default function EventModal() {
                         aria-labelledby="options-heading"
                         className="mt-5"
                       >
+                        {/* shows if the user is not registered */}
                         {!registered && (
                           <div>
                             <p
                               id="options-heading"
                               className="text-md text-darkBlue font-bold"
                             >
-                              Join now for just ${event.enrollmentFee}{" "}
-                              dollars!
+                              Join now for just ${event.enrollmentFee} dollars!
                             </p>
                             <span className="text-sm text-darkBlue">
                               Get the invitation link to your registered Email.
                             </span>
                           </div>
                         )}
+                        {/* if the user is logged in and not registered */}
                         {authenticated && !registered ? (
-                          <Paypal event={event} />
+                          <Paypal setRegistered={setRegistered} />
+                        ) : authenticated && registered ? (
+                          <div>
+                            <p
+                              id="options-heading"
+                              className="text-md text-darkBlue font-bold"
+                            >
+                              You have suceessfully joined🎉.
+                            </p>
+                            <span className="text-sm text-darkBlue">
+                              We are excited to see you in the event!
+                            </span>
+                          </div>
                         ) : (
                           <Link
                             to={"/signin"}
-                            className="border rounded-sm px-3 py-1 text-darkBlue border-darkBlue text-sm"
+                            className="border rounded-md px-3 py-1 bg-darkBlue text-white font-bold border-darkBlue text-sm"
                           >
                             Signin for Join
                           </Link>

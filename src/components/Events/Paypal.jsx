@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import {setPaymentStatus} from "../../app/slices/eventSlice";
+import { useSelector } from "react-redux";
 
-const Paypal = ({ event }) => {
+const Paypal = ({setRegistered}) => {
   const [success, setSuccess] = useState(false);
-  const [ErrorMessage, setErrorMessage] = useState("");
-  const [orderID, setOrderID] = useState(false);
-
+  const [orderId, setOrderID] = useState(null);
+  const { event } = useSelector((state) => state.eventModal);
   // creates a paypal order
   const createOrder = (data, actions) => {
     return actions.order
@@ -44,7 +45,7 @@ const Paypal = ({ event }) => {
   useEffect(() => {
     if (success) {
       toast.success("Payment successfull✨");
-      console.log("Order successful . Your order id is--", orderID);
+      // console.log("Order successful . Your order id is--", orderID);
       handleJoin();
     }
   }, [success]);
@@ -57,7 +58,9 @@ const Paypal = ({ event }) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     if (status === 201) {
-      toast.success("We have sent an invitaion to your email.");
+      toast.success("We have senten an invitaion to your email.");
+      setRegistered(true)
+      setPaymentStatus();
     }
   };
 

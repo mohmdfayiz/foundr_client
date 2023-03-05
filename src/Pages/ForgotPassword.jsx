@@ -24,7 +24,7 @@ export const ForgotPassword = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="my-[4rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
+      <div className="my-[4rem] mx-4 py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-2xl font-bold">
           Forgot Password?
         </h2>
@@ -47,7 +47,7 @@ export const ForgotPassword = () => {
             className="border border-gray-400 rounded focus:outline-none w-full h-10 p-3 text-darkBlue"
           />
 
-          <div className="flex justify-center mt-3">
+          <div className="flex gap-3 justify-center mt-3">
             <Link
               to={"/signin"}
               className="border border-darkBlue px-3 py-2 text-darkBlue rounded font-bold hover:shadow-md"
@@ -56,7 +56,7 @@ export const ForgotPassword = () => {
             </Link>
             <button
               type="submit"
-              className="border bg-darkBlue px-6 py-2 ml-4   text-white rounded font-bold hover:shadow-md"
+              className="border bg-darkBlue px-5 py-2 text-white rounded font-bold hover:shadow-md"
             >
               Submit
             </button>

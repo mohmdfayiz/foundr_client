@@ -5,7 +5,7 @@ import { Home } from "./Pages/Home";
 import { Signup } from "./Pages/Signup";
 import { Signin } from "./Pages/Signin";
 import { Articles } from "./Pages/Articles";
-import Article from "./Pages/Article";
+import Article from "./components/Articles/Article";
 import Messages from "./components/Messages/Messages";
 import Events from "./Pages/Events";
 import { Account } from "./Pages/Account";
@@ -13,12 +13,11 @@ import { ErrorPage } from "./Pages/ErrorPage";
 import { Otp } from "./Pages/Otp";
 import { ForgotPassword } from "./Pages/ForgotPassword";
 import ChangePassword from "./Pages/ChangePassword";
-import { AuthorizeUser } from "./middlewares/auth";
+import { AuthorizeUser, RedirectUser } from "./middlewares/auth";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
-import {authenticate,unAuthenticate,} from "./features/authentication/authSlice";
-import { setUser } from "./features/loggedUser/loggedUserSlice";
-
+import {authenticate,unAuthenticate,} from "./app/slices/authSlice";
+import { setUser } from "./app/slices/loggedUserSlice";
 
 function App() {
 
@@ -49,9 +48,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/emailVarification" element={<Otp />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<RedirectUser><Signup /></RedirectUser>} />
+        <Route path="/emailVarification" element={<RedirectUser><Otp /></RedirectUser>} />
+        <Route path="/signin" element={<RedirectUser><Signin /></RedirectUser>} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/articles" element={<Articles />} />

@@ -39,7 +39,7 @@ export const Signup = () => {
   return (
     <div className="flex justify-center">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
+      <div className="my-[3rem] mx-4 py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-3xl font-bold">
           Sign up
         </h2>

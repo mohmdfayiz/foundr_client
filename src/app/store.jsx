@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loggedUserReducer from "../features/loggedUser/loggedUserSlice";
-import authReducer from "../features/authentication/authSlice";
-import modalReducer from "../features/modalDisplay/eventSlice";
-import connectionsReducer from "../features/modalDisplay/connectionSlice";
-import profileReducer from "../features/modalDisplay/matchingProfileSlice";
-import notificationSlice from "../features/notification/notificationSlice";
-import currentChatSlice from "../features/currentChat/currentChatSlice";
-import socketSlice from "../features/socket/socketSlice";
+import loggedUserReducer from './slices/loggedUserSlice'
+import authReducer from "./slices/authSlice";
+import modalReducer from "./slices/eventSlice";
+import connectionsReducer from "./slices/connectionSlice";
+import profileReducer from "./slices/matchingProfileSlice";
+import notificationSlice from "./slices/notificationSlice";
+import currentChatSlice from "./slices/currentChatSlice";
+import socketSlice from "./slices/socketSlice";
 
 export default configureStore({
   reducer: {

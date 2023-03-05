@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { authenticate } from "../features/authentication/authSlice";
+import { authenticate } from "../app/slices/authSlice";
 import { useFormik } from "formik";
 import { toast } from "react-hot-toast";
 import { loginformValidate } from "../middlewares/validate";
-axios.defaults.baseURL = 'https://www.server.foundr.site/'
+axios.defaults.baseURL = "https://www.server.foundr.site/";
 
 export const Signin = () => {
   const navigate = useNavigate();
@@ -21,14 +21,16 @@ export const Signin = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       try {
-        const { data, status } = await axios.post("/api/user/signin", { ...values });
+        const { data, status } = await axios.post("/api/user/signin", {
+          ...values,
+        });
         if (status === 200) {
           toast.success("Login success");
           localStorage.setItem("token", JSON.stringify(data.token));
           dispatch(authenticate());
           navigate("/", { replace: "true" });
-        }else{
-          toast.error("Invalid credentials!")
+        } else {
+          toast.error("Invalid credentials!");
         }
       } catch (error) {
         toast.error("Something went wrong, Try again.");
@@ -38,7 +40,7 @@ export const Signin = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="my-[3rem] py-[3rem] bg-white rounded-lg w-[440px] shadow-lg">
+      <div className="my-[3rem] py-[3rem] mx-4 bg-white rounded-lg w-[440px] shadow-lg">
         <h2 className="text-darkBlue text-center text-3xl font-bold">
           Sign in
         </h2>
@@ -59,6 +61,7 @@ export const Signin = () => {
             Password
           </label>
           <input
+            id="password"
             type="password"
             {...formik.getFieldProps("password")}
             className="border border-gray-400 rounded focus:outline-none w-full h-10 p-3 text-darkBlue"

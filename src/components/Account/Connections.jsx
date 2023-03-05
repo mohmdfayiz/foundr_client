@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
-import { showConnections } from "../../features/modalDisplay/connectionSlice";
-import { showModal, setProfile } from "../../features/modalDisplay/matchingProfileSlice";
+import { showConnections } from "../../app/slices/connectionSlice";
+import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
 import avatar from '../../assets/man.png'
 
 function Connections() {
@@ -32,11 +32,10 @@ function Connections() {
         <Modal.Body>
           <div className="divide-y divide-gray-100 dark:divide-gray-700">
             {connections.map((connection) => (
-                
-              <a
+              <div
                 key={connection._id}
-                href="#"
-                className="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={()=> viewProfile(connection)}
+                className="flex px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <div className="flex-shrink-0">
                   <img
@@ -44,7 +43,6 @@ function Connections() {
                     src={connection?.profilePhoto || avatar}
                     alt="ProfilePhoto"
                   />
-                  {/* <div className="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800"></div> */}
                 </div>
                 <div className="w-full pl-3">
                   <div className="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
@@ -52,11 +50,11 @@ function Connections() {
                       {connection?.userName}
                     </span>
                   </div>
-                  <div onClick={()=> viewProfile(connection)} className="text-xs text-blue-600 dark:text-blue-500">
+                  <div className="text-xs text-blue-600 dark:text-blue-500">
                     <span className="text-gray-500 ">Country: {connection.location.country} ,</span> View Profile
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </Modal.Body>
