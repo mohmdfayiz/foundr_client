@@ -12,28 +12,33 @@ export const Signup = () => {
       email: "",
       password: "",
     },
-    validate: signupformValidation,
+    validate:signupformValidation,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
       try {
-        const {email,userName} = values; 
+        const { email, userName } = values;
         // verify user already exist or not, and get OTP
-        const { data } = await axios.get(`/api/user/verifyUser?email=${email}`)
+        toast.loading("Let's verify your email");
+        const { data } = await axios.get(`/api/user/verifyUser?email=${email}`);
         //send mail with OTP
-        let content = `OTP for your email verification is ${data.code}`
-        axios.post('/api/user/sendMail',{userName, email, content}).then(()=>{
-              toast.success("An OTP has been sent to your email.")
-              navigate('/emailVarification', {state:{...values}})
-           })
+        let content = `OTP for your email verification is ${data.code}`;
+        axios
+          .post("/api/user/sendMail", { userName, email, content })
+          .then(() => {
+            toast.dismiss();
+            toast.success("An OTP has been sent to your email.");
+            navigate("/emailVarification", { state: { ...values } });
+          });
       } catch (error) {
-          if(error.response.status === 400){
-            toast.error("An account with this email already exist!")
-          }else{
-            toast.error("Something went wrong! Try agian.")
-          }
+        toast.dismiss();
+        if (error.response.status === 400) {
+          toast.error("An account with this email already exist!");
+        } else {
+          toast.error("Something went wrong! Try agian.");
+        }
       }
-    }
+    },
   });
 
   return (
