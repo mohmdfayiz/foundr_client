@@ -3,13 +3,12 @@ import { Modal } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
 import { showConnections } from "../../app/slices/connectionSlice";
 import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
-import avatar from '../../assets/man.png'
+import avatar from "../../assets/man.png";
 
 function Connections() {
-
   const dispatch = useDispatch();
   const { show } = useSelector((state) => state.connectionsModal);
-  const {connections} = useSelector((state) => state.connectionsModal);
+  const { connections } = useSelector((state) => state.connectionsModal);
 
   // connection Modal open or close
   function onClick() {
@@ -17,10 +16,10 @@ function Connections() {
   }
 
   // view selected profile
-  function viewProfile(profile){
-    dispatch(setProfile(profile)) // set selected profile
-    dispatch(showConnections()) // close connections modal
-    dispatch(showModal()) // open profile modal
+  function viewProfile(profile) {
+    dispatch(setProfile(profile)); // set selected profile
+    dispatch(showConnections()); // close connections modal
+    dispatch(showModal()); // open profile modal
   }
 
   return (
@@ -30,11 +29,11 @@ function Connections() {
           <h4 className="text-darkBlue font-bold">Connections.</h4>
         </Modal.Header>
         <Modal.Body>
-          <div className="divide-y divide-gray-100 dark:divide-gray-700">
+          <div className="divide-y max-h-96 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch divide-gray-100 dark:divide-gray-700">
             {connections.map((connection) => (
               <div
                 key={connection._id}
-                onClick={()=> viewProfile(connection)}
+                onClick={() => viewProfile(connection)}
                 className="flex px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <div className="flex-shrink-0">
@@ -51,7 +50,10 @@ function Connections() {
                     </span>
                   </div>
                   <div className="text-xs text-blue-600 dark:text-blue-500">
-                    <span className="text-gray-500 ">Country: {connection.location.country} ,</span> View Profile
+                    <span className="text-gray-500 ">
+                      Country: {connection.location.country} ,
+                    </span>{" "}
+                    View Profile
                   </div>
                 </div>
               </div>

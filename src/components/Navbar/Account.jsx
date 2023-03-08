@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -61,7 +61,7 @@ export const Account = () => {
                   <hr />
                   <div
                     onClick={userLogout}
-                    className="text-[#326789] hover:text-lightBlue my-1 cursor-pointer`"
+                    className="text-[#326789] cursor-pointer hover:text-lightBlue my-1 cursor-pointer`"
                   >
                     Logout
                   </div>

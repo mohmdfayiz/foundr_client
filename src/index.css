@@ -40,25 +40,6 @@ li {
   margin: 10px 10px;
 }
 
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  right: 0;
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 12px 0px rgba(0,0,0,0.1);
-  padding: 12px 16px;
-  z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
 .articleCard{
   height: 300px;
   max-width: 270px;
@@ -72,21 +53,6 @@ li {
 
 .messageBox{
   height: 75vh;
-}
-
-.unravel_loading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.circle-ripple {
-  background-color: #658864;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  animation: ripple 0.7s linear infinite;
 }
 
 .scrollbar-w-2::-webkit-scrollbar {
@@ -107,5 +73,5 @@ li {
 }
 
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
-  border-radius: 0.25rem;
+  border-radius: 0.25rem;
 }

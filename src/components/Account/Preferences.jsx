@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 const Preferences = (props) => {
   const [showAbout, setShowAbout] = useState(true); // about you
   const [showCofounder, setShowCofounder] = useState(false); // cofounder preference
+
   const [isTechnical, setIsTechnical] = useState(null);
   const [haveIdea, setHaveIdea] = useState("");
   const [accomplishments, setAccomplishments] = useState("");
@@ -28,25 +29,25 @@ const Preferences = (props) => {
   const [cofounderTechnical, setCofounderTechnical] = useState(null);
   const [cofounderHasIdea, setCofounderHasIdea] = useState(null);
   const [locationPreference, setLocationPreference] = useState(null);
-  const [cofounderResponsibilities, setCofounderResponsibilities] = useState([]);
+  const [cofounderResponsibilities, setCofounderResponsibilities] = useState(
+    []
+  );
 
-  const [aboutUser, setAboutUser] = useState({}); // api data
   useEffect(() => {
-    setAboutUser(props);
-    setIsTechnical(aboutUser?.isTechnical || isTechnical);
-    setHaveIdea(aboutUser?.haveIdea || haveIdea);
-    setAccomplishments(aboutUser?.accomplishments || accomplishments);
-    setEducation(aboutUser?.education || education);
-    setEmployment(aboutUser?.employment || employment);
-    setInterests(aboutUser?.interests || interests);
-    setResponsibilities(aboutUser?.responsibilities || responsibilities);
-    setActivelySeeking(aboutUser?.activelySeeking || activelySeeking);
-    setCofounderTechnical(aboutUser?.cofounderTechnical || cofounderTechnical);
-    setCofounderHasIdea(aboutUser?.cofounderHasIdea || cofounderHasIdea);
-    setLocationPreference(aboutUser?.locationPreference || locationPreference);
-    setCofounderResponsibilities(
-      aboutUser?.cofounderResponsibilities || cofounderResponsibilities
-    );
+    if (props) {
+      setIsTechnical(props?.isTechnical || isTechnical);
+      setHaveIdea(props?.haveIdea || haveIdea);
+      setAccomplishments(props?.accomplishments || accomplishments);
+      setEducation(props?.education || education);
+      setEmployment(props?.employment || employment);
+      setInterests(props?.interests || interests);
+      setResponsibilities(props?.responsibilities || responsibilities);
+      setActivelySeeking(props?.activelySeeking || activelySeeking);
+      setCofounderTechnical(props?.cofounderTechnical || cofounderTechnical);
+      setCofounderHasIdea(props?.cofounderHasIdea || cofounderHasIdea);
+      setLocationPreference(props?.locationPreference || locationPreference);
+      setCofounderResponsibilities(props?.cofounderResponsibilities || cofounderResponsibilities);
+    }
   }, [props]);
 
   const handleSelect = (event, setState) => {
@@ -186,7 +187,7 @@ const Preferences = (props) => {
                 id="isTechnical-true"
                 name="isTechnical"
                 value={1}
-                checked={isTechnical == 1}
+                checked={isTechnical === 1}
                 onChange={(e) => handleChange(e, setIsTechnical)}
               />
               <Label htmlFor="isTechnical-true">Yes</Label>
@@ -194,7 +195,7 @@ const Preferences = (props) => {
                 id="isTechnical-false"
                 name="isTechnical"
                 value={0}
-                checked={isTechnical == 0}
+                checked={isTechnical === 0}
                 onChange={(e) => handleChange(e, setIsTechnical)}
               />
               <Label htmlFor="isTechnical-false">No</Label>
@@ -379,7 +380,7 @@ const Preferences = (props) => {
                 id="activelySeeking-true"
                 name="activelySeeking"
                 value={1}
-                checked={activelySeeking == 1}
+                checked={activelySeeking === 1}
                 onChange={(e) => handleChange(e, setActivelySeeking)}
               />
               <Label htmlFor="activelySeeking-true">Yes</Label>
@@ -387,7 +388,7 @@ const Preferences = (props) => {
                 id="activelySeeking-false"
                 name="activelySeeking"
                 value={0}
-                checked={activelySeeking == 0}
+                checked={activelySeeking === 0}
                 onChange={(e) => handleChange(e, setActivelySeeking)}
               />
               <Label htmlFor="activelySeeking-false">No</Label>
@@ -402,7 +403,7 @@ const Preferences = (props) => {
                 id="technical-1"
                 name="technical"
                 value={1}
-                checked={cofounderTechnical == 1}
+                checked={cofounderTechnical === 1}
                 onChange={(e) => handleChange(e, setCofounderTechnical)}
               />
               <Label htmlFor="technical-1">Technical</Label>
@@ -412,7 +413,7 @@ const Preferences = (props) => {
                 id="technical-2"
                 name="technical"
                 value={2}
-                checked={cofounderTechnical == 2}
+                checked={cofounderTechnical === 2}
                 onChange={(e) => handleChange(e, setCofounderTechnical)}
               />
               <Label htmlFor="technical-2">Non-technical</Label>
@@ -422,7 +423,7 @@ const Preferences = (props) => {
                 id="technical-3"
                 name="technical"
                 value={3}
-                checked={cofounderTechnical == 3}
+                checked={cofounderTechnical === 3}
                 onChange={(e) => handleChange(e, setCofounderTechnical)}
               />
               <Label htmlFor="technical-3">No preference</Label>
@@ -438,7 +439,7 @@ const Preferences = (props) => {
                 id="idea-1"
                 name="idea"
                 value={1}
-                checked={cofounderHasIdea == 1}
+                checked={cofounderHasIdea === 1}
                 onChange={(e) => handleChange(e, setCofounderHasIdea)}
               />
               <Label htmlFor="idea-1">
@@ -450,7 +451,7 @@ const Preferences = (props) => {
                 id="idea-2"
                 name="idea"
                 value={2}
-                checked={cofounderHasIdea == 2}
+                checked={cofounderHasIdea === 2}
                 onChange={(e) => handleChange(e, setCofounderHasIdea)}
               />
               <Label htmlFor="idea-2">
@@ -462,7 +463,7 @@ const Preferences = (props) => {
                 id="idea-3"
                 name="idea"
                 value={3}
-                checked={cofounderHasIdea == 3}
+                checked={cofounderHasIdea === 3}
                 onChange={(e) => handleChange(e, setCofounderHasIdea)}
               />
               <Label htmlFor="idea-3">No preference</Label>
@@ -475,7 +476,7 @@ const Preferences = (props) => {
                 id="location-1"
                 name="location"
                 value={1}
-                checked={locationPreference == 1}
+                checked={locationPreference === 1}
                 onChange={(e) => handleChange(e, setLocationPreference)}
               />
               <Label htmlFor="location-1">
@@ -487,7 +488,7 @@ const Preferences = (props) => {
                 id="location-2"
                 name="location"
                 value={2}
-                checked={locationPreference == 2}
+                checked={locationPreference === 2}
                 onChange={(e) => handleChange(e, setLocationPreference)}
               />
               <Label htmlFor="location-2">In my country</Label>
@@ -497,7 +498,7 @@ const Preferences = (props) => {
                 id="location-3"
                 name="location"
                 value={3}
-                checked={locationPreference == 3}
+                checked={locationPreference === 3}
                 onChange={(e) => handleChange(e, setLocationPreference)}
               />
               <Label htmlFor="location-3">No preference</Label>

@@ -1,15 +1,11 @@
 import { Popover, Transition } from "@headlessui/react";
-import {
-  showModal,
-  setProfile,
-} from "../../app/slices/matchingProfileSlice";
+import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
 import Notification from "../../assets/Notification.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Fragment } from "react";
 import avatar from "../../assets/man.png";
 
 function Notifications() {
-    
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -26,13 +22,12 @@ function Notifications() {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <Popover.Button
-            className={classNames(
-              open ? "text-lightBlue" : "text-darkBlue",
-              "group bg-white text-base font-medium hover:text-lightBlue focus:outline-none"
-            )}
-          >
-            <img src={Notification} className="w-6 md:w-8" alt="noficication" />
+          <Popover.Button className="focus:outline-none">
+            <img
+              src={Notification}
+              className="w-6 md:w-8"
+              alt="Noficications"
+            />
           </Popover.Button>
 
           <Transition
@@ -45,7 +40,7 @@ function Notifications() {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-sm -translate-x-3/4 transform px-2 sm:px-0">
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="overflow-hidden  max-h-96 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid gap-y-3 bg-white px-3 py-4">
                   {!notifications.length && (
                     <div className="flex justify-center items-center">

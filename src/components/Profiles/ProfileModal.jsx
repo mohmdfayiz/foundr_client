@@ -198,7 +198,7 @@ export const ProfileModal = () => {
                             <span>Connect</span>
                           </button>
                         )}
-                        {connectionRequests.map((request, index) => {
+                        {connectionRequests.map((request) => {
                           if (
                             request.sender === profile._id &&
                             request.status === "pending"
@@ -261,7 +261,7 @@ export const ProfileModal = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="my-4 p-5 bg-white  rounded-lg shadow-xl flex flex-col gap-3">
+                  <div className="my-4 p-5 bg-white rounded-lg shadow-xl flex flex-col gap-3">
                     <div>
                       <h2 className="text-sm font-semibold">About</h2>
                       <p className="text-sm text-gray-400">{profile?.intro}</p>
@@ -292,7 +292,7 @@ export const ProfileModal = () => {
                       <p className="col-span-2 text-sm font-semibold">
                         Is Technical
                       </p>
-                      <span className="bg-slate-100  text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
+                      <span className="bg-slate-100 col-span-2 sm:col-span-1 text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
                       {profile?.isTechnical ? "Yes" : "No"}
                       </span>
                     </div>
@@ -300,7 +300,7 @@ export const ProfileModal = () => {
                       <p className="col-span-2 text-sm font-semibold">
                         Has Idea
                       </p>
-                      <span className="bg-slate-100  text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
+                      <span className="bg-slate-100 col-span-2 sm:col-span-1 text-gray-500 text-sm text-center m-1 rounded-md py-1 px-2">
                         {profile?.haveIdea ? "Yes" : "No"}
                       </span>
                     </div>

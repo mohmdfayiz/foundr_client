@@ -16,10 +16,6 @@ const PersonalInfo = (props) => {
     }
   }, [props]);
 
-  const resetData = () => {
-    setTempUserDetails(userDetails);
-  };
-
   const updateUserProfile = async (profileDetails) => {
     try {
       const token = localStorage.getItem("token");
