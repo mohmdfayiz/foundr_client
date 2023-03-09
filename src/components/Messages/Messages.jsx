@@ -54,7 +54,7 @@ const Messages = () => {
   };
 
   useEffect(() => {
-    if (chatUser !== "") {
+    if (chatUser._id !== "") {
       socket.current = io(import.meta.env.VITE_SERVER_DOMAIN);
       socket.current.emit("addUser", userId);
     }
@@ -251,12 +251,12 @@ const Messages = () => {
                       />
                     </div>
                   </div>
-                  <div className="ml-4">
+                  <div className="ml-2">
                     <button
                       onClick={sendmsg}
-                      className="flex items-center justify-center bg-darkBlue hover:bg-lightBlue rounded-xl text-white h-10 w-16 flex-shrink-0"
+                      className="flex items-center justify-center bg-darkBlue hover:bg-lightBlue rounded-xl text-white h-8 w-12 sm:h-10 sm:w-16 flex-shrink-0"
                     >
-                      <span className="ml-2">
+                      <span className="">
                         <svg
                           className="w-4 h-4 transform rotate-45 -mt-px"
                           fill="none"
