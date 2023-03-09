@@ -46,7 +46,7 @@ export const Profiles = () => {
                 alt="profile"
                 className="rounded-full w-20 h-20 object-cover"
               />
-              <p className="text-sm font-bold text-darkBlue">
+              <p className="text-sm text-center font-bold text-darkBlue ten-chars">
                 {profile.userName}
               </p>
               <p className="text-xs text-gray-600">

@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import InputEmoji from "react-input-emoji";
 import dateFormat from "dateformat";
 import avatar from "../../assets/man.png";
+import jwt_decode from "jwt-decode";
 
 const Messages = () => {
   const [connections, setConnections] = useState([]);
@@ -15,7 +16,8 @@ const Messages = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
-  const { userId } = useSelector((state) => state.loggedUser);
+  const token = localStorage.getItem("token");
+  const { userId } = jwt_decode(token);
   const { chatUser } = useSelector((state) => state.currentChat);
   const scrolRef = useRef();
   const socket = useRef();
