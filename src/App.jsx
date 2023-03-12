@@ -19,8 +19,9 @@ import jwt_decode from "jwt-decode";
 import { authenticate, unAuthenticate } from "./app/slices/authSlice";
 import { setUser } from "./app/slices/loggedUserSlice";
 import { toast } from "react-hot-toast";
+
 function App() {
-  
+
   const dispatch = useDispatch();
   const authStateListener = async () => {
     let token = localStorage.getItem("token");

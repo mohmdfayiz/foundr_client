@@ -63,8 +63,8 @@ export const ProfileModal = () => {
         ? "Request accepted, Send a message now!"
         : "Request rejected, They missed the opportunity!",
     };
-    const { status } = await axios.post(
-      "/api/user/updateConnectionResponse",
+    const { status } = await axios.patch(
+      "/api/user/connectionRequest",
       data,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -78,7 +78,7 @@ export const ProfileModal = () => {
 
   // fetch all the connection requests of logged users
   const fetchRequests = async (token) => {
-    const { data } = await axios.get("/api/user/getRequests", {
+    const { data } = await axios.get("/api/user/connectionRequest", {
       headers: { Authorization: `Bearer ${token}` },
     });
     return Promise.resolve(data.connectionRequests);

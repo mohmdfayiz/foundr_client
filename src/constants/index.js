@@ -12,13 +12,13 @@ export const tileData = [
         id: 2,
         icon: '/images/Award.svg',
         title: "Learn from experts",
-        text: "Learn from experts who have succeed in their industries and doing business."
+        text: "Learn from accomplished experts who have succeeded in their respective industries and in the realm of business."
     },
     {
         id: 3,
         icon: Browse,
         title: "Participate in events",
-        text: "Participate in events that are conducting by leading industrial experts though online or offline."
+        text: "Participate in events that are conducted by leading industrial experts through online platforms."
     }
 ]
 

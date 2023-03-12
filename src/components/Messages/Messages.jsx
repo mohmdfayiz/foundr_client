@@ -38,7 +38,7 @@ const Messages = () => {
     const fetchMessages = async (user) => {
       if (user) {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get(`/api/user/getMessages?to=${user}`, {
+        const { data } = await axios.get(`/api/user/message?to=${user}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage(data);
@@ -83,7 +83,7 @@ const Messages = () => {
       message: inputMessage,
     };
 
-    await axios.post("/api/user/sendMessage", data, {
+    await axios.post("/api/user/message", data, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setInputMessage("");
@@ -136,7 +136,6 @@ const Messages = () => {
                   <img src={chatUser.profilePhoto} alt="profilePhoto" />
                 ) : (
                   <div className="flex items-center justify-center h-full w-full bg-indigo-200 rounded-full">
-                    {/* {chatUser.userName && chatUser.userName[0]} */}
                     <img src={avatar} alt="profilePhoto" />
                   </div>
                 )}

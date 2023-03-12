@@ -1,23 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unAuthenticate } from "../../app/slices/authSlice";
 import avatar from "../../assets/man.png";
 import { Popover, Transition } from "@headlessui/react";
+import axios from "axios";
 
 export const Account = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
   function userLogout() {
     localStorage.removeItem("token");
     dispatch(unAuthenticate());
     navigate("/", { replace: true });
   }
 
+  const getProfilePhoto = async () => {
+    const token = localStorage.getItem("token");
+    const {
+      data: { profilePhoto },
+    } = await axios.get("/api/user/profilePhoto", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setProfilePhoto(profilePhoto);
+  };
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  useEffect(() => {
+    getProfilePhoto();
+  }, []);
 
   return (
     <Popover className="relative">
@@ -27,8 +45,8 @@ export const Account = () => {
             className={classNames("group bg-white focus:outline-none")}
           >
             <img
-              src={avatar}
-              className="rounded-full"
+              src={profilePhoto || avatar}
+              className="rounded-full object-cover"
               width={35}
               alt="profile"
             />

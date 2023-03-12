@@ -3,11 +3,12 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import {setPaymentStatus} from "../../app/slices/eventSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Paypal = ({setRegistered}) => {
   const [success, setSuccess] = useState(false);
   const [orderId, setOrderID] = useState(null);
+  const dispatch = useDispatch()
   const { event } = useSelector((state) => state.eventModal);
   // creates a paypal order
   const createOrder = (data, actions) => {
@@ -60,7 +61,7 @@ const Paypal = ({setRegistered}) => {
     if (status === 201) {
       toast.success("We have senten an invitaion to your email.");
       setRegistered(true)
-      setPaymentStatus();
+      dispatch(setPaymentStatus())
     }
   };
 
