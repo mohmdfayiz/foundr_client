@@ -2,8 +2,10 @@ import { Popover, Transition } from "@headlessui/react";
 import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
 import Notification from "../../assets/Notification.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import avatar from "../../assets/man.png";
+import { setNotification } from "../../app/slices/notificationSlice";
+import axios from "axios";
 
 function Notifications() {
   function classNames(...classes) {
@@ -11,6 +13,8 @@ function Notifications() {
   }
   const dispatch = useDispatch();
   const { notifications } = useSelector((state) => state.notification);
+  const [count, setCount] = useState(0);
+  const [icon, setIcon] = useState(false);
 
   // when user click view profile in notification
   const handleViewProfile = (profile) => {
@@ -18,11 +22,37 @@ function Notifications() {
     dispatch(showModal());
   };
 
+  // fetch all notification from database
+  const fetchNotifications = async (token) => {
+    const { data } = await axios.get("/api/user/getNotifications", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Promise.resolve(data.notifications);
+  };
+
+  // Fetch notification on every 2 minutes, but not on initial loading!
+  // if notification count is greater than the existing then show the red dot.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const token = localStorage.getItem("token");
+      fetchNotifications(token).then((data) => {
+        count < data.length && setIcon(true);
+        setCount(data.length);
+        dispatch(setNotification(data));
+      });
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Popover className="relative">
       {({ open }) => (
         <>
-          <Popover.Button className="focus:outline-none">
+          {open && setIcon(false)}
+          <Popover.Button className="focus:outline-none relative">
+            {icon && (
+              <div className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500" />
+            )}
             <img
               src={Notification}
               className="w-6 md:w-8"

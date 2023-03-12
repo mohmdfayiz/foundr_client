@@ -10,7 +10,6 @@ import { toast } from "react-hot-toast";
 import { setConnectionRequests } from "../../app/slices/loggedUserSlice";
 import { setChatUser } from "../../app/slices/currentChatSlice";
 import { useNavigate } from "react-router-dom";
-import { setNotification } from "../../app/slices/notificationSlice";
 import profileBackground from "../../assets/profile-background.jpg"
 export const ProfileModal = () => {
   const dispatch = useDispatch();
@@ -85,14 +84,6 @@ export const ProfileModal = () => {
     return Promise.resolve(data.connectionRequests);
   };
 
-  // fetch all notification from database
-  const fetchNotifications = async (token) => {
-    const { data } = await axios.get("/api/user/getNotifications", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return Promise.resolve(data.notifications);
-  };
-
   // navigate to chat with Connection
   const chatWithConnection = (profile) => {
     dispatch(setChatUser(profile));
@@ -105,13 +96,6 @@ export const ProfileModal = () => {
       dispatch(setConnectionRequests(data));
     });
   }, [profile._id, action]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetchNotifications(token).then((data) => {
-      dispatch(setNotification(data));
-    });
-  }, [action]);
 
   return (
     <Transition.Root show={show} as={Fragment}>
