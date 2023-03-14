@@ -27,7 +27,7 @@ export const Otp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { status } = await axios.post(`/api/user/verifyOtp?code=${otp}`);
+      const { status } = await axios.post(`/api/user/verifyOtp`,{code:otp});
       if (status === 200) {
         if (userName) { // sign up api
           await axios

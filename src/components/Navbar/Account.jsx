@@ -48,6 +48,7 @@ export const Account = () => {
               src={profilePhoto || avatar}
               className="rounded-full object-cover"
               width={35}
+              height={35}
               alt="profile"
             />
           </Popover.Button>
