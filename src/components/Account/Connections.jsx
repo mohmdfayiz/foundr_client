@@ -51,7 +51,7 @@ function Connections() {
                   </div>
                   <div className="text-xs text-blue-600 dark:text-blue-500">
                     <span className="text-gray-500 ">
-                      Country: {connection.location.country} ,
+                      Country: {connection.location.country ?? 'Unknown'} ,
                     </span>{" "}
                     View Profile
                   </div>

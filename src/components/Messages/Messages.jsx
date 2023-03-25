@@ -143,8 +143,7 @@ const Messages = () => {
               <div className="text-sm font-semibold mt-2">
                 {chatUser.userName && chatUser.userName}
               </div>
-              <div className="text-xs text-gray-500">
-                {chatUser.location && chatUser.location.country}
+              <div className="text-xs text-gray-500">                {chatUser.location && chatUser.location?.country}
               </div>
             </div>
 

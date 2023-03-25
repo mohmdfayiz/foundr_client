@@ -7,7 +7,6 @@ import Connections from "./Connections";
 import { useDispatch } from "react-redux";
 import { showConnections, setConnection } from "../../app/slices/connectionSlice";
 import { toast } from "react-hot-toast";
-import { ProfileModal } from "../Profiles/ProfileModal";
 
 const ProfileCard = (props) => {
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -34,7 +33,7 @@ const ProfileCard = (props) => {
     setUserName(props.userName)
     setEmail(props.email)
     setConnections(props.connections)
-  },[props,file])
+  },[props])
 
   const onUpload = async (e) => {
       await converToBase64(e.target.files[0]).then(async(file)=>{
