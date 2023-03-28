@@ -2,7 +2,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
 import Notification from "../../assets/Notification.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import avatar from "../../assets/man.png";
 import { setNotification } from "../../app/slices/notificationSlice";
 import axios from "axios";

@@ -66,6 +66,7 @@ const Messages = () => {
     if (!inputMessage) {
       return toast.error("Message should not be empty!");
     }
+
     const messages = {
       myself: true,
       message: inputMessage,
@@ -189,8 +190,8 @@ const Messages = () => {
                           key={date}
                           className="col-span-12 text-center mt-2"
                         >
-                          <span className="bg-darkBlue text-white rounded-md py-1 px-2 text-xs ">
-                            {dateFormat(date, "longDate")}
+                          <span className="bg-darkBlue text-white rounded-md py-1 px-2 text-xs">
+                            {dateFormat(new Date(date), "longDate")}
                           </span>
                         </div>
                         {groups[date].map((msg) =>
