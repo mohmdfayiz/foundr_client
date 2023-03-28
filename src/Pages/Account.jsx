@@ -17,7 +17,7 @@ export const Account = () => {
   }, []);
 
   return (
-    <div className="sm:m-[3rem]">
+    <div className="sm:px-3 container max-w-7xl  mx-auto">
       <div className="p-[1.5rem] grid grid-cols-12 gap-4 ">
         <ProfileCard
           profilePhoto={userDetails?.profilePhoto}

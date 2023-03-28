@@ -107,7 +107,7 @@ const Messages = () => {
     const groups = {};
     message.forEach((message) => {
       const date = new Date(message.time);
-      const dateString = date.toLocaleDateString();
+      const dateString = new Date(date.toLocaleDateString())
       if (groups[dateString]) {
         groups[dateString].push(message);
       } else {
@@ -117,7 +117,6 @@ const Messages = () => {
     return groups;
   }
   const groups = groupMessagesByDay(message);
-
   return (
     <div className="m-4 sm:m-[3rem]">
       <div className="flex h-[80vh] antialiased text-gray-800">
@@ -191,7 +190,7 @@ const Messages = () => {
                           className="col-span-12 text-center mt-2"
                         >
                           <span className="bg-darkBlue text-white rounded-md py-1 px-2 text-xs">
-                            {dateFormat(new Date(date), "longDate")}
+                            {dateFormat(date, "longDate")}
                           </span>
                         </div>
                         {groups[date].map((msg) =>
