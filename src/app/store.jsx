@@ -6,7 +6,6 @@ import connectionsReducer from "./slices/connectionSlice";
 import profileReducer from "./slices/matchingProfileSlice";
 import notificationSlice from "./slices/notificationSlice";
 import currentChatSlice from "./slices/currentChatSlice";
-import socketSlice from "./slices/socketSlice";
 
 export default configureStore({
   reducer: {
@@ -17,6 +16,5 @@ export default configureStore({
     profileModal: profileReducer,
     notification: notificationSlice,
     currentChat: currentChatSlice,
-    webSocket: socketSlice,
   },
 });
