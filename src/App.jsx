@@ -13,12 +13,13 @@ import { ErrorPage } from "./Pages/ErrorPage";
 import { Otp } from "./Pages/Otp";
 import { ForgotPassword } from "./Pages/ForgotPassword";
 import ChangePassword from "./Pages/ChangePassword";
-import { AuthorizeUser, RedirectUser } from "./middlewares/auth";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { authenticate, unAuthenticate } from "./app/slices/authSlice";
 import { setUser } from "./app/slices/loggedUserSlice";
 import { toast } from "react-hot-toast";
+import UnAuthenticatedOnlyRoutes from "./Routes/UnAuthenticatedOnlyRoutes";
+import ProtectedRoutes from "./Routes/ProtectedRoutes";
 
 function App() {
 
@@ -51,16 +52,23 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="/signup" element={<RedirectUser><Signup /></RedirectUser>}/>
-        <Route path="/emailVarification" element={<RedirectUser><Otp/></RedirectUser>}/>
-        <Route path="/signin" element={<RedirectUser><Signin /></RedirectUser>}/>
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/article/:id" element={<Article />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/messages"element={<AuthorizeUser><Messages /></AuthorizeUser>}/>
-        <Route path="/account"element={<AuthorizeUser><Account /></AuthorizeUser>}/>
+
+        <Route element={<UnAuthenticatedOnlyRoutes />}>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/emailVarification" element={<Otp />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
+        </Route>
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/account" element={<Account />} />
+        </Route>
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
