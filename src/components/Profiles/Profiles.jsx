@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import avatar from "../../assets/man.png";
 import { useDispatch } from "react-redux";
-import {
-  showModal,
-  setProfile,
-} from "../../app/slices/matchingProfileSlice";
+import { showModal, setProfile } from "../../app/slices/matchingProfileSlice";
 
 export const Profiles = () => {
   const [profiles, setProfiles] = useState([]);
@@ -15,10 +12,10 @@ export const Profiles = () => {
   useEffect(() => {
     const matchingProfiles = async () => {
       const {
-        data: { matchingProfiles },
+        data: { matchingProfiles }, status
       } = await axios.get("/api/user/matchingProfiles", {
         headers: { Authorization: `Bearer ${token}` },
-      });
+      }); 
       setProfiles(matchingProfiles);
     };
     matchingProfiles();

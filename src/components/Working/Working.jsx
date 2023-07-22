@@ -4,7 +4,7 @@ import { steps } from "../../constants";
 export const Working = () => {
   return (
     <div className="container max-w-7xl mx-auto my-[5rem] flex flex-col">
-      <h2 className="font-extrabold text-2xl text-darkBlue text-center">
+      <h2 className="font-extrabold text-2xl text-darkBlue text-center mb-4">
         How does it work?
       </h2>
       {steps.map((step, index) => (
