@@ -107,7 +107,7 @@ const Messages = () => {
     const groups = {};
     message.forEach((message) => {
       const date = new Date(message.time);
-      const dateString = date.toLocaleDateString()
+      const dateString = date.toLocaleDateString();
       if (groups[dateString]) {
         groups[dateString].push(message);
       } else {
@@ -119,7 +119,7 @@ const Messages = () => {
   const groups = groupMessagesByDay(message);
   return (
     <div className="m-4 sm:m-[3rem]">
-      <div className="flex h-[80vh] antialiased text-gray-800">
+      <div className="flex h-[600px] antialiased text-gray-800">
         <div className="flex flex-row h-full w-full rounded-md bg-white overflow-x-scroll overflow-y-hidden scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
           <div className="flex flex-col py-8 pl-6 pr-2 w-64 shrink-0">
             <div className="flex flex-row items-center justify-center h-12 w-full">
@@ -143,7 +143,9 @@ const Messages = () => {
               <div className="text-sm font-semibold mt-2">
                 {chatUser.userName && chatUser.userName}
               </div>
-              <div className="text-xs text-gray-500">                {chatUser.location && chatUser.location?.country}
+              <div className="text-xs text-gray-500">
+                {" "}
+                {chatUser.location && chatUser.location?.country}
               </div>
             </div>
 
@@ -154,12 +156,14 @@ const Messages = () => {
                   {connections.length}
                 </span>
               </div>
-              <div className="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
+              <div className="flex flex-col space-y-1 mt-4 -mx-2 h-56 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
                 {connections.map((user) => (
                   <button
                     key={user._id}
                     onClick={() => handleSelect(user)}
-                    className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2"
+                    className={`flex flex-row items-center hover:bg-gray-100 rounded-xl p-2  ${
+                      chatUser?._id === user?._id && "bg-gray-100"
+                    }`}
                   >
                     <div className="flex items-center justify-center overflow-hidden h-8 w-8 bg-blue-100 rounded-full">
                       {user.profilePhoto ? (
@@ -182,12 +186,12 @@ const Messages = () => {
             <div className="flex flex-col flex-auto rounded-2xl bg-gray-100 h-full p-4">
               <div className="flex flex-col h-full overflow-x-auto scrollbar-hide mb-4">
                 <div className="flex flex-col h-full">
-                  <div className="grid grid-cols-12 gap-y-2">
+                  <div className="grid grid-cols-12 gap-y-2 pb-2">
                     {Object.keys(groups).map((date) => (
                       <>
                         <div
                           key={date}
-                          className="col-span-12 text-center mt-2"
+                          className="col-span-12 text-center my-2"
                         >
                           <span className="bg-darkBlue text-white rounded-md py-1 px-2 text-xs">
                             {date}
@@ -197,7 +201,7 @@ const Messages = () => {
                           msg.myself ? (
                             <div
                               key={msg.time}
-                              className="col-start-6 col-end-13 p-3 rounded-lg"
+                              className="col-start-6 col-end-13 rounded-lg"
                             >
                               <div className="flex items-center justify-start flex-row-reverse">
                                 <div className="relative min-w-[100px] mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
@@ -213,7 +217,7 @@ const Messages = () => {
                           ) : (
                             <div
                               key={msg.time}
-                              className="col-start-1 col-end-8 p-3 rounded-lg"
+                              className="col-start-1 col-end-8 rounded-lg"
                             >
                               <div className="flex flex-row items-center">
                                 <div className="relative min-w-[100px] ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">

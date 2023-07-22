@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-axios.defaults.baseURL = 'https://www.server.livetoride.website'
+axios.defaults.baseURL = 'https://api-foundr.cyclic.app/'
 
 /** To get user info from Token */
 export async function getUser() {

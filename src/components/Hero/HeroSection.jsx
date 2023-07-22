@@ -32,7 +32,7 @@ export const HeroSection = ({ login }) => {
           skills, location, and more, and start building your company.
         </p>
         {!authenticated && (
-          <div>
+          <div className="mt-5">
             <Button
               props={{
                 text: "Sign up",
